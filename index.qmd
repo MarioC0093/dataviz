@@ -1,0 +1,411 @@
+---
+title: "index"
+author: "Mario"
+format:
+  html:
+    toc: TRUE
+    toc-location: left
+    toc-title: Índice
+    toc-expand: TRUE
+warning: false
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+# Gráfico de Gannt
+
+Gráfico de Gannt de un proceso de selección.
+
+Se tiene la fecha de inicio y de finalización de cada tarea. Para el status de cada tarea se compara la fecha actual con la fecha de finalización de la tarea.
+
+```{r}
+# Crear un marco de datos con fases del proceso de selección de personal
+tasks <- data.frame(
+  task = factor(c("Revisión de CV", "Entrevista inicial", "Prueba técnica", "Entrevista final", "Oferta y contratación"), 
+                levels = c("Revisión de CV", "Entrevista inicial", "Prueba técnica", "Entrevista final", "Oferta y contratación")),
+  start = as.Date(c("2024-01-01", "2024-01-10", "2024-01-15", "2024-01-20", "2024-02-01")),
+  end = as.Date(c("2024-01-07", "2024-01-15", "2024-01-25", "2024-02-05", "2024-02-15"))
+)
+
+# Calcular el estado en función de la fecha actual
+tasks <- tasks %>%
+  mutate(
+    status_ok = case_when(
+      end < Sys.Date() ~ "delayed",
+      start > Sys.Date() ~ "planned",
+      end >= Sys.Date() & start <= Sys.Date() ~ "on track",
+      TRUE ~ "done"),
+    status = case_when(
+      end < "2024-01-15" ~ "delayed",
+      start > "2024-01-15" ~ "planned",
+      end >= "2024-01-15" & start <= "2024-01-15" ~ "on track",
+      TRUE ~ "done")
+    )
+
+# Ordenar las tareas por la fecha de inicio
+tasks <- tasks %>%
+  arrange(start)
+
+# Ver los datos con el estado calculado
+print(tasks)
+```
+
+```{r}
+ggplot(tasks, aes(x = start, xend = end, y = task, yend = task, color = status)) +
+  geom_segment(size = 6) +  # Tamaño de las barras
+  scale_color_manual(values = c("on track" = "green", 
+                                "delayed" = "red", 
+                                "planned" = "blue", 
+                                "done" = "grey")) +
+  labs(title = "Proceso de Selección de Personal",
+       x = "Fecha inicio de la tarea",
+       y = "Fase del proceso",
+       color = "Estado") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 10))
+```
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Crear un marco de datos con fases del proceso de selección de personal y personas
+tasks <- data.frame(
+  task = factor(c("Revisión de CV", "Entrevista inicial", "Prueba técnica", "Entrevista final", "Oferta y contratación"), 
+                levels = c("Revisión de CV", "Entrevista inicial", "Prueba técnica", "Entrevista final", "Oferta y contratación")),
+  start = as.Date(c("2024-01-01", "2024-01-10", "2024-01-20", "2024-02-01", "2024-02-10")),
+  end = as.Date(c("2024-01-07", "2024-01-15", "2024-01-25", "2024-02-05", "2024-02-15")),
+  person = c("Ana", "Luis", "Carlos", "Ana", "Luis"),
+  stringsAsFactors = FALSE
+)
+
+# Determinar el estado de las tareas en función de la fecha actual
+tasks <- tasks %>%
+  mutate(
+    status = case_when(
+      end < "2024-01-15" ~ "delayed",
+      start > "2024-01-15" ~ "planned",
+      end >= "2024-01-15" & start <= "2024-01-15" ~ "on track",
+      TRUE ~ "done")
+    )
+
+# Ordenar las tareas por la fecha de inicio
+tasks <- tasks %>%
+  arrange(start)
+
+# Crear el gráfico de Gantt
+ggplot(tasks, aes(x = start, xend = end, y = reorder(task, start), yend = reorder(task, start), color = status)) +
+  geom_segment(aes(linetype = person), size = 6) +  # Tamaño de las barras
+  scale_color_manual(values = c("on track" = "green", 
+                                "delayed" = "red", 
+                                "planned" = "blue", 
+                                "done" = "grey")) +
+  labs(title = "Gráfico de Gantt del Proceso de Selección de Personal",
+       x = "Fecha",
+       y = "Fase del Proceso",
+       color = "Estado",
+       linetype = "Persona") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 10))
+
+# Crear el gráfico de Gantt
+ggplot(tasks, aes(x = start, xend = end, y = reorder(task, start), yend = reorder(task, start), color = status, linetype = person)) +
+  geom_segment(size = 6) +  # Tamaño de las barras
+  scale_color_manual(values = c("on track" = "green", 
+                                "delayed" = "red", 
+                                "planned" = "blue", 
+                                "done" = "grey")) +
+  scale_linetype_manual(values = c("Ana" = "solid", "Luis" = "dashed", "Carlos" = "dotted")) +
+  labs(title = "Gráfico de Gantt del Proceso de Selección de Personal",
+       x = "Fecha",
+       y = "Fase del Proceso",
+       color = "Estado",
+       linetype = "Persona") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 10))
+```
+
+# Word cloud
+
+Word cloud de las primeras cien palabras del Quijote.
+
+Fuente: [https://www.gutenberg.org/cache/epub/2000/pg2000.txt](https://www.gutenberg.org/cache/epub/2000/pg2000.txt)
+
+```{r}
+library(stringr)
+library(wordcloud)
+library(tm)
+library(stopwords)
+```
+
+
+```{r}
+# Leo el Quijote
+quijote <- readLines("data/quijote.txt", encoding = "UTF-8")
+
+# Concateno todas las líneas en una sola cadena
+quijote <- paste(quijote, collapse = " ")
+
+# Convierto el Quijote a minúsculas, elimino caracteres especiales
+quijote <- tolower(quijote)
+quijote <- str_replace_all(quijote, "[^a-záéíóúüñ]", " ")
+
+# Dividir el texto en palabras y eliminar stop words
+quijote_words <- unlist(strsplit(quijote, "\\s+"))
+quijote_words <- quijote_words[!quijote_words %in% tm::stopwords("spanish")] # análogo: quijote_words <- quijote_words[!quijote_words %in% stopwords::stopwords("spanish")]
+quijote_words <- quijote_words[!quijote_words %in% tm::stopwords("spanish")]
+
+# Filtrar las palabras vacías (espacios en blanco) y obtener las primeras 1000 palabras
+quijote_words <- quijote_words[quijote_words != ""]
+first_1000_words <- quijote_words[1:10000]
+```
+
+```{r}
+wordcloud(words = first_1000_words, min.freq = 10, colors = brewer.pal(8, "Dark2"))
+```
+
+
+# Gráfico de mosaico
+
+```{r}
+library(vcd)
+```
+
+
+```{r}
+mosaic(~ Class + Survived, data = Titanic, shade = TRUE, legend = TRUE)
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+
+```{r}
+# Crear un marco de datos con categorías
+data <- data.frame(
+  Categoria1 = rep(c("A", "B", "C"), each = 3),
+  Categoria2 = rep(c("X", "Y", "Z"), times = 3),
+  Count = c(10, 20, 30, 5, 15, 25, 20, 10, 5)
+)
+
+# Calcular proporciones
+data <- data %>%
+  group_by(Categoria1) %>%
+  mutate(Proporcion = Count / sum(Count)) %>%
+  ungroup()
+
+# Crear el gráfico de mosaico
+ggplot(data, aes(x = Categoria1, y = Count, fill = Categoria2)) +
+  geom_tile(aes(height = Count)) +
+  labs(title = "Gráfico de Mosaico",
+       x = "Categoría 1",
+       y = "Proporción",
+       fill = "Categoría 2") +
+  theme_minimal()
+
+# Crear el gráfico de mosaico
+ggplot(data, aes(x = Categoria1, y = Proporcion, fill = Categoria2)) +
+  geom_tile(aes(height = Proporcion)) +
+  labs(title = "Gráfico de Mosaico",
+       x = "Categoría 1",
+       y = "Proporción",
+       fill = "Categoría 2") +
+  theme_minimal()
+
+```
+
+```{r}
+#ggplot(data = fly) +
+#  geom_mosaic(aes(x=product(do_you_recline), fill = do_you_recline, 
+#                  conds = product(rude_to_recline))) +
+#  labs(title='f(do_you_recline | rude_to_recline)')
+```
+
+
+### -----------
+
+# Mapa de calor iteractivo
+
+```{r}
+# Librerías
+library(ggplot2)
+library(reshape2)
+library(heatmaply)
+
+# Datos
+data <- cor(mtcars)
+
+# Mapa de calor
+heatmaply(data, k_row = 3, k_col = 2, main = "Correlación entre variables de mtcars")
+```
+
+
+# Tree map
+```{r}
+# Librerías
+library(ggplot2)
+library(treemapify)
+
+# Datos
+data <- data.frame(
+  category = c("A", "B", "C", "D"),
+  value = c(40, 30, 20, 10)
+)
+
+# Gráfico de árbol
+ggplot(data, aes(area = value, fill = category, label = category)) +
+  geom_treemap() +
+  geom_treemap_text(colour = "white", place = "centre") +
+  labs(title = "Distribución de categorías")
+```
+
+# Mapa coroplético
+
+```{r}
+# Librerías
+library(ggplot2)
+library(maps)
+
+# Datos
+data <- map_data("state")
+data$rate <- runif(nrow(data), min = 0, max = 1)
+
+# Mapa coroplético
+ggplot(data, aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = rate), color = "white") +
+  scale_fill_continuous(low = "white", high = "blue") +
+  labs(title = "Tasa aleatoria por estado")
+
+```
+
+
+# Gráfico de Sankey
+
+```{r}
+# Librerías
+library(networkD3)
+
+# Datos
+nodes <- data.frame(name = c("A", "B", "C", "D"))
+links <- data.frame(
+  source = c(0, 1, 1, 2, 3),
+  target = c(1, 2, 3, 3, 2),
+  value = c(10, 20, 30, 40, 50)
+)
+
+# Gráfico de Sankey
+sankeyNetwork(Links = links, Nodes = nodes, Source = "source", Target = "target",
+              Value = "value", NodeID = "name", fontSize = 12)
+
+```
+
+
+
+
+
+# Gráfico de Radar o Araña
+
+```{r}
+# Librerías
+library(fmsb)
+
+# Datos
+data <- as.data.frame(matrix(sample(2:20, 10, replace = TRUE), ncol = 5))
+colnames(data) <- c("A", "B", "C", "D", "E")
+
+# Gráfico de radar
+# radarchart(data, axistype = 1, pcol = "blue", pfcol = scales::alpha("blue", 0.5))
+```
+
+```{r}
+## 11. Gráfico de Radar o Araña
+
+```{r}
+# Librerías
+library(fmsb)
+
+# Datos
+data <- data.frame(
+  A = c(10, 15, 8),
+  B = c(9, 17, 6),
+  C = c(12, 13, 9),
+  D = c(8, 10, 14),
+  E = c(15, 8, 12)
+)
+
+# Agregar las filas máximas y mínimas para escalar el gráfico
+data <- rbind(rep(20, 5), rep(0, 5), data)
+
+# Gráfico de radar
+radarchart(data, axistype = 1, 
+           pcol = rainbow(3), 
+           pfcol = scales::alpha(rainbow(3), 0.4), 
+           plwd = 2, 
+           cglcol = "grey", 
+           cglty = 1, 
+           axislabcol = "grey", 
+           caxislabels = seq(0, 20, 5), 
+           cglwd = 0.8)
+
+```
+
+
+# Gráfico de Superficie
+
+```{r}
+# Librerías
+library(plotly)
+
+# Datos
+x <- seq(-10, 10, length.out = 100)
+y <- seq(-10, 10, length.out = 100)
+z <- outer(x, y, function(x, y) cos(sqrt(x^2 + y^2)))
+
+# Gráfico de superficie
+plot_ly(x = ~x, y = ~y, z = ~z, type = "surface") %>%
+  layout(title = "Gráfico de superficie")
+```
+
+# Gráfico de Mariposa (Population Pyramid)
+
+```{r}
+# Librerías
+library(ggplot2)
+
+# Datos
+data <- data.frame(
+  age = rep(1:10, 2),
+  count = c(10, 20, 30, 40, 50, 40, 30, 20, 10, 5, 15, 25, 35, 45, 55, 45, 35, 25, 15, 10),
+  gender = rep(c("Male", "Female"), each = 10)
+)
+
+# Gráfico de mariposa
+ggplot(data, aes(x = age, y = count, fill = gender)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip() +
+  labs(title = "Pirámide de población")
+```
+
+# Gráfico de burbujas
+
+```{r}
+# Librerías
+library(ggplot2)
+
+# Datos
+data <- data.frame(
+  x = rnorm(100),
+  y = rnorm(100),
+  size = rnorm(100, mean = 5, sd = 2)
+)
+
+# Gráfico de burbujas
+ggplot(data, aes(x = x, y = y, size = size)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Gráfico de burbujas")
+```

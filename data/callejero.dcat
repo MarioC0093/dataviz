@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<rdf:RDF
+			 xmlns:foaf="http://xmlns.com/foaf/0.1/"
+			 xmlns:skos="http://datos.gob.es/kos/sector-publico/sector/"
+			 xmlns:dcat="http://www.w3.org/ns/dcat#"
+			 xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+			 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			 xmlns:dct="http://purl.org/dc/terms/"
+			 xmlns:dc="http://purl.org/dc/elements/1.1/"
+			 xmlns:time="http://www.w3.org/2006/time#"
+			 xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+			 xmlns:j.0="http://www.w3.org/1999/xhtml/vocab#"
+			 xmlns:j.1="http://a9.com/-/spec/opensearch/1.1/"
+			 xmlns:api="http://purl.org/linked-data/api/vocab#">
+			<dcat:Catalog rdf:about="https://datos.madrid.es/egob/catalogo">
+			
+				
+					<dct:title xml:lang="es">Catálogo de datos abiertos del Ayuntamiento de Madrid</dct:title>
+					<dct:description xml:lang="es">
+						Catálogo de datos abiertos del Ayuntamiento de Madrid
+					</dct:description>
+					<dc:language>es</dc:language>
+					<foaf:homepage rdf:resource="https://datos.madrid.es"/>
+					<dct:license rdf:resource="https://datos.madrid.es/egob/catalogo/aviso-legal"/>
+					<dct:identifier>https://datos.madrid.es/egob/catalogo</dct:identifier>
+					<dcat:themeTaxonomy rdf:resource="http://datos.gob.es/kos/sector-publico/sector/" />
+					<dct:publisher rdf:resource="http://datos.gob.es/recurso/sector-publico/org/Organismo/L01280796"/>
+					<dct:extent>
+						<dct:SizeOrDuration>
+							<rdf:value rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</rdf:value>
+							<rdfs:label xml:lang="es">1</rdfs:label>
+						</dct:SizeOrDuration>
+					</dct:extent>
+					
+					
+					
+				
+				
+				
+					<dcat:dataset>
+						<dcat:Dataset rdf:about="https://datos.madrid.es/egob/catalogo/300274-0-callejero-oficial-webservice">
+							<dct:identifier>https://datos.madrid.es/egob/catalogo/300274-0-callejero-oficial-webservice</dct:identifier>
+							<dct:title xml:lang="es">Callejero Oficial del Ayuntamiento de Madrid  (Servicio Web)</dct:title>
+							<dct:description xml:lang="es"><![CDATA[Servicio web que permite consultar los cambios producidos en las entidades propias de Callejero Oficial del Ayuntamiento de Madrid desde entidades externas.   En el apartado  Documentación asociada  se ofrece el  Manual de uso de servicios/componentes del Web Service  .    En el portal de datos abiertos también están disponibles otros conjuntos de datos relacionados con el Callejero:      Callejero Oficial del Ayuntamiento de Madrid     Callejero. Cambios de denominación Comisionado de Memoria Histórica     Callejero. Información adicional asociada. Códigos postales, zonas SER, categoría fiscal, parcela catastral, etc .     También puede consultar las direcciones del callejero municipal en el siguiente enlace:  consulta del callejero .]]></dct:description>
+							<dcat:theme rdf:resource="http://datos.gob.es/kos/sector-publico/sector/urbanismo-infraestructuras" />
+							<dcat:keyword xml:lang="es">vial calle callejero direcciones número de policía API Web Service</dcat:keyword>					
+							<dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-10-15T00:00:00</dct:issued>
+							<dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-10-15T00:00:00</dct:modified>
+							
+							
+								<dct:accrualPeriodicity>
+									<dct:Frequency>
+										<rdfs:label>tiemporeal</rdfs:label>
+										<rdf:value>
+											<time:DurationDescription>
+												<rdfs:label>tiemporeal</rdfs:label>
+												<time:days rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</time:days>
+											</time:DurationDescription>
+										</rdf:value>
+									</dct:Frequency>
+								</dct:accrualPeriodicity>
+							
+							<dc:language>es</dc:language>
+							<dct:publisher rdf:resource="http://datos.gob.es/recurso/sector-publico/org/Organismo/L01280796"/>
+							<dct:license rdf:resource="https://datos.madrid.es/egob/catalogo/aviso-legal"/>
+							
+							
+							
+							<dcat:distribution>
+  <dcat:Distribution>
+    <dcat:accessURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://datos.madrid.es/egob/catalogo/300274-0-callejero-oficial-webservice.xml</dcat:accessURL>
+    <dcat:mediaType>application/xml</dcat:mediaType>
+  </dcat:Distribution>
+</dcat:distribution>
+
+						</dcat:Dataset>
+					</dcat:dataset>
+				
+				
+				
+					<dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2014-03-12T09:00:00</dct:issued>
+					
+								
+				
+			</dcat:Catalog>			 
+		</rdf:RDF>
