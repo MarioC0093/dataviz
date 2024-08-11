@@ -1,5 +1,5 @@
 ---
-title: "index"
+title: "Dataviz"
 author: "Mario"
 format:
   html:
@@ -8,12 +8,35 @@ format:
     toc-title: Índice
     toc-expand: TRUE
 warning: false
+code-fold: true
 ---
 
-```{r}
-library(tidyverse)
+```{css echo=FALSE}
+h1 {
+  color: black;
+  background: linear-gradient(to right, lightgrey, powderblue);
+}
+
+h2 {
+  color: blue;
+}
 ```
 
+<h3 style="background: linear-gradient(to right, white, lightgrey); color: lightblue;">
+
+Repositorio Git:
+
+</h1>
+
+<https://github.com/MarioC0093/dataviz/blob/main/README.md>
+
+# Librerías básicas
+
+```{r}
+#| code-fold: false
+library(tidyverse)
+library(ggplot2)
+```
 
 # Gráfico de Gannt
 
@@ -21,119 +44,77 @@ Gráfico de Gannt de un proceso de selección.
 
 Se tiene la fecha de inicio y de finalización de cada tarea. Para el status de cada tarea se compara la fecha actual con la fecha de finalización de la tarea.
 
+
+[**Datos**]{.underline}
+
 ```{r}
-# Crear un marco de datos con fases del proceso de selección de personal
-tasks <- data.frame(
-  task = factor(c("Revisión de CV", "Entrevista inicial", "Prueba técnica", "Entrevista final", "Oferta y contratación"), 
-                levels = c("Revisión de CV", "Entrevista inicial", "Prueba técnica", "Entrevista final", "Oferta y contratación")),
-  start = as.Date(c("2024-01-01", "2024-01-10", "2024-01-15", "2024-01-20", "2024-02-01")),
-  end = as.Date(c("2024-01-07", "2024-01-15", "2024-01-25", "2024-02-05", "2024-02-15"))
+tasks <- 
+  data.frame(
+    task = factor(c("Revisión de CV",
+                    "Entrevista inicial",
+                    "Prueba técnica",
+                    "Llamar referencias",
+                    "Entrevista final",
+                    "Oferta"),
+                  levels = c("Revisión de CV",
+                             "Entrevista inicial",
+                             "Prueba técnica",
+                             "Llamar referencias",
+                             "Entrevista final",
+                             "Oferta")),
+    start = as.Date(c("2024-01-01",
+                      "2024-01-10",
+                      "2024-01-15",
+                      "2024-01-15",
+                      "2024-01-20",
+                      "2024-02-01")),
+    end = as.Date(c("2024-01-07",
+                    "2024-01-15",
+                    "2024-01-25",
+                    "2024-01-16",
+                    "2024-02-05",
+                    "2024-02-15"))
 )
 
-# Calcular el estado en función de la fecha actual
 tasks <- tasks %>%
   mutate(
-    status_ok = case_when(
-      end < Sys.Date() ~ "delayed",
-      start > Sys.Date() ~ "planned",
-      end >= Sys.Date() & start <= Sys.Date() ~ "on track",
-      TRUE ~ "done"),
+    # Sustituir la fecha por Sys.Date()
+    fecha_actual = "2024-01-17",
     status = case_when(
-      end < "2024-01-15" ~ "delayed",
-      start > "2024-01-15" ~ "planned",
-      end >= "2024-01-15" & start <= "2024-01-15" ~ "on track",
-      TRUE ~ "done")
-    )
+      start > "2024-01-17" ~ "planned",
+      start < "2024-01-17" & end > "2024-01-17" ~ "on track",
+      start < "2024-01-17" & end < "2024-01-17" ~ "done",
+      TRUE ~ "delayed")
+  ) |> arrange(start)
 
-# Ordenar las tareas por la fecha de inicio
-tasks <- tasks %>%
-  arrange(start)
-
-# Ver los datos con el estado calculado
-print(tasks)
+tasks
 ```
 
+[**Código.**]{.underline}
+
 ```{r}
-ggplot(tasks, aes(x = start, xend = end, y = task, yend = task, color = status)) +
-  geom_segment(size = 6) +  # Tamaño de las barras
-  scale_color_manual(values = c("on track" = "green", 
-                                "delayed" = "red", 
-                                "planned" = "blue", 
+tasks |> ggplot(aes(x = start, xend = end, y = task, yend = task, color = status)) + 
+  geom_segment(size = 6) +
+  scale_color_manual(values = c("on track" = "lightgreen", 
+                                "delayed" = "yellow3", 
+                                "planned" = "lightblue1", 
                                 "done" = "grey")) +
-  labs(title = "Proceso de Selección de Personal",
+  labs(title = "Proceso de selección de personal",
        x = "Fecha inicio de la tarea",
        y = "Fase del proceso",
-       color = "Estado") +
-  theme_minimal() +
-  theme(axis.text.y = element_text(size = 10))
-```
-
-
-```{r}
-library(ggplot2)
-library(dplyr)
-
-# Crear un marco de datos con fases del proceso de selección de personal y personas
-tasks <- data.frame(
-  task = factor(c("Revisión de CV", "Entrevista inicial", "Prueba técnica", "Entrevista final", "Oferta y contratación"), 
-                levels = c("Revisión de CV", "Entrevista inicial", "Prueba técnica", "Entrevista final", "Oferta y contratación")),
-  start = as.Date(c("2024-01-01", "2024-01-10", "2024-01-20", "2024-02-01", "2024-02-10")),
-  end = as.Date(c("2024-01-07", "2024-01-15", "2024-01-25", "2024-02-05", "2024-02-15")),
-  person = c("Ana", "Luis", "Carlos", "Ana", "Luis"),
-  stringsAsFactors = FALSE
-)
-
-# Determinar el estado de las tareas en función de la fecha actual
-tasks <- tasks %>%
-  mutate(
-    status = case_when(
-      end < "2024-01-15" ~ "delayed",
-      start > "2024-01-15" ~ "planned",
-      end >= "2024-01-15" & start <= "2024-01-15" ~ "on track",
-      TRUE ~ "done")
-    )
-
-# Ordenar las tareas por la fecha de inicio
-tasks <- tasks %>%
-  arrange(start)
-
-# Crear el gráfico de Gantt
-ggplot(tasks, aes(x = start, xend = end, y = reorder(task, start), yend = reorder(task, start), color = status)) +
-  geom_segment(aes(linetype = person), size = 6) +  # Tamaño de las barras
-  scale_color_manual(values = c("on track" = "green", 
-                                "delayed" = "red", 
-                                "planned" = "blue", 
-                                "done" = "grey")) +
-  labs(title = "Gráfico de Gantt del Proceso de Selección de Personal",
-       x = "Fecha",
-       y = "Fase del Proceso",
-       color = "Estado",
-       linetype = "Persona") +
-  theme_minimal() +
-  theme(axis.text.y = element_text(size = 10))
-
-# Crear el gráfico de Gantt
-ggplot(tasks, aes(x = start, xend = end, y = reorder(task, start), yend = reorder(task, start), color = status, linetype = person)) +
-  geom_segment(size = 6) +  # Tamaño de las barras
-  scale_color_manual(values = c("on track" = "green", 
-                                "delayed" = "red", 
-                                "planned" = "blue", 
-                                "done" = "grey")) +
-  scale_linetype_manual(values = c("Ana" = "solid", "Luis" = "dashed", "Carlos" = "dotted")) +
-  labs(title = "Gráfico de Gantt del Proceso de Selección de Personal",
-       x = "Fecha",
-       y = "Fase del Proceso",
-       color = "Estado",
-       linetype = "Persona") +
-  theme_minimal() +
-  theme(axis.text.y = element_text(size = 10))
+       color = "Status") +
+  theme_minimal() + geom_vline(xintercept = as.numeric(as.Date("2024-01-17")), linetype="dotted", 
+                color = "black", size=0.5) + 
+  geom_text(x=as.numeric(as.Date("2024-01-17")), y=1.5, label=Sys.Date(),
+            angle=90, color = "darkgrey", size=3)
 ```
 
 # Word cloud
 
-Word cloud de las primeras cien palabras del Quijote.
+Word cloud de las primeras diez mil palabras del Quijote.
 
-Fuente: [https://www.gutenberg.org/cache/epub/2000/pg2000.txt](https://www.gutenberg.org/cache/epub/2000/pg2000.txt)
+
+[**Librerías específicas.**]{.underline}
 
 ```{r}
 library(stringr)
@@ -142,6 +123,13 @@ library(tm)
 library(stopwords)
 ```
 
+
+[**Datos.**]{.underline}
+
+Fuente: <https://www.gutenberg.org/cache/epub/2000/pg2000.txt>
+
+
+[**Código.**]{.underline}
 
 ```{r}
 # Leo el Quijote
@@ -168,6 +156,7 @@ first_1000_words <- quijote_words[1:10000]
 wordcloud(words = first_1000_words, min.freq = 10, colors = brewer.pal(8, "Dark2"))
 ```
 
+### -----------
 
 # Gráfico de mosaico
 
@@ -175,15 +164,14 @@ wordcloud(words = first_1000_words, min.freq = 10, colors = brewer.pal(8, "Dark2
 library(vcd)
 ```
 
-
 ```{r}
 mosaic(~ Class + Survived, data = Titanic, shade = TRUE, legend = TRUE)
 ```
+
 ```{r}
 library(ggplot2)
 library(dplyr)
 ```
-
 
 ```{r}
 # Crear un marco de datos con categorías
@@ -227,8 +215,6 @@ ggplot(data, aes(x = Categoria1, y = Proporcion, fill = Categoria2)) +
 ```
 
 
-### -----------
-
 # Mapa de calor iteractivo
 
 ```{r}
@@ -244,8 +230,8 @@ data <- cor(mtcars)
 heatmaply(data, k_row = 3, k_col = 2, main = "Correlación entre variables de mtcars")
 ```
 
-
 # Tree map
+
 ```{r}
 # Librerías
 library(ggplot2)
@@ -283,7 +269,6 @@ ggplot(data, aes(long, lat, group = group)) +
 
 ```
 
-
 # Gráfico de Sankey
 
 ```{r}
@@ -304,10 +289,6 @@ sankeyNetwork(Links = links, Nodes = nodes, Source = "source", Target = "target"
 
 ```
 
-
-
-
-
 # Gráfico de Radar o Araña
 
 ```{r}
@@ -325,7 +306,6 @@ colnames(data) <- c("A", "B", "C", "D", "E")
 ```{r}
 ## 11. Gráfico de Radar o Araña
 
-```{r}
 # Librerías
 library(fmsb)
 
@@ -353,7 +333,6 @@ radarchart(data, axistype = 1,
            cglwd = 0.8)
 
 ```
-
 
 # Gráfico de Superficie
 
