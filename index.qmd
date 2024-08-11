@@ -1,14 +1,24 @@
 ---
-title: "Dataviz"
-author: "Mario"
+title: "Choice of Brand for Crackers"
+author: "Mario Camacho"
+date: today
+#date-format: long
+date-format: "DD MMMM YYYY"
 format:
   html:
     toc: TRUE
     toc-location: left
     toc-title: Índice
     toc-expand: TRUE
-warning: false
+    css: styles.css
+editor: visual
+page-layout: full
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 110
 code-fold: true
+warning: false
 ---
 
 ```{css echo=FALSE}
@@ -24,9 +34,7 @@ h2 {
 
 <h3 style="background: linear-gradient(to right, white, lightgrey); color: lightblue;">
 
-Repositorio Git:
-
-</h1>
+Repositorio Git:</h1>
 
 <https://github.com/MarioC0093/dataviz/blob/main/README.md>
 
@@ -36,6 +44,7 @@ Repositorio Git:
 #| code-fold: false
 library(tidyverse)
 library(ggplot2)
+library(glue)
 ```
 
 # Gráfico de Gannt
@@ -155,6 +164,97 @@ first_1000_words <- quijote_words[1:10000]
 ```{r}
 wordcloud(words = first_1000_words, min.freq = 10, colors = brewer.pal(8, "Dark2"))
 ```
+
+# Parlamento
+
+Se representa los votos recibidos por cada partido político en las elecciones de noviembre de 2019.
+
+El número de escaños representado para cada partido político es proporcional a los votos recibidos y no representa el método D’Hondt.
+
+[**Librerías específicas.**]{.underline}
+
+```{r}
+library(ggparliament)
+```
+
+
+[**Datos.**]{.underline}
+ 
+```{r}
+datos_elecciones <- read_csv(file = "data/datos_elecciones_brutos.csv")
+datos_elecciones <- datos_elecciones |> filter(anno==max(anno)) |> filter(mes==max(mes))
+
+# Elimino variables sin información
+cols_sin_informacion <- datos_elecciones |> select(1:15) |>
+  summarise(across(everything(), n_distinct)) |> pivot_longer(cols = everything()) |> 
+  filter(value==1) |> select(name) |> pull()
+
+datos_elecciones <- datos_elecciones |> select(-all_of(cols_sin_informacion))
+
+# Pivoto los datos
+datos_elecciones <- datos_elecciones |>
+  pivot_longer(cols = -c(0:votos_candidaturas),
+               names_to = "partido_politico",
+               values_to = "votos") |> 
+  drop_na(votos)
+
+# Creo las siglas de cada partido y agrupo los votos por las siglas
+source("scr/mutate_siglas.R")
+datos_elecciones <- mutate_siglas(datos_elecciones)
+
+datos_elecciones <- datos_elecciones |>
+  summarise(votos = sum(votos), .by=everything()[! everything() %in% c('votos')])
+
+datos_elecciones <- datos_elecciones |>
+  mutate(siglas = fct_reorder(siglas, votos, .fun = sum))
+```
+
+```{r}
+# Defino la paleta de colores
+datos_elecciones <- datos_elecciones |>
+  mutate(color_politico = case_when(siglas == "PP" ~ "#3399FF",
+                         siglas == "PSOE" ~ "#F6350B",
+                         siglas == "C's" ~ "#FF5824",
+                         siglas == "PNV" ~ "#008135",
+                         siglas == "BNG" ~ "#76b3dd",
+                         siglas == "COMPROMÍS" ~ "#de6c25",
+                         siglas == "CiU" ~ "#FF0000",
+                         siglas == "UP" ~ "#6D50B3",
+                         siglas == "ERC" ~ "#ffbf41",
+                         siglas == "EH - BILDU" ~ "#00bda1",
+                         siglas == "MÁS PAÍS" ~ "#E61455",
+                         siglas == "VOX" ~ "#73B446",
+                         TRUE ~ "#462B25"))
+```
+
+
+[**Código.**]{.underline}
+
+```{r}
+#| out-width: 80%
+parlamento <- datos_elecciones |> 
+  summarise(votos=sum(votos), .by = c(siglas, color_politico))
+
+parlamento <- parlamento |> 
+  mutate(asientos = round(350*votos/sum(votos))) |> 
+  select(-votos)
+
+semicircle <- parliament_data(election_data = parlamento,
+                                 type = "semicircle", # Tipo de parlamento
+                                 parl_rows = 7,      # Número de filas del parlamento
+                                 party_seats = parlamento$asientos) # Asientos por partido
+
+semi2 <- ggplot(semicircle, aes(x = x, y = y, colour = siglas)) +
+  geom_parliament_seats() + 
+  theme_ggparliament() +
+  labs(title = "Segundas elecciones de 2.019", x = "", y = "") +
+  scale_colour_manual(values = semicircle$color_politico, 
+                      limits = semicircle$siglas) + 
+  theme(legend.position="bottom")
+
+semi2
+```
+
 
 ### -----------
 
