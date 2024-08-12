@@ -1,0 +1,10 @@
+/*-- scss:defaults --*/
+
+h1 {
+  color: black;
+  background: linear-gradient(to right, lightgrey, powderblue);
+}
+
+h2 {
+  color: blue;
+}

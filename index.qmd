@@ -1,16 +1,29 @@
 ---
-title: "Choice of Brand for Crackers"
+title: "Dataviz"
 author: "Mario Camacho"
-date: today
-#date-format: long
+date-modified: last-modified
 date-format: "DD MMMM YYYY"
+lang: es
+
+categories: ["Portafolio", "Dataviz"]
+
+description: "Un portafolio que muestra algunas de mis visualizaciones y sirve de plantilla para toda persona que necesite ideas para una representación de sus datos."
+
+abstract: |
+  Una visualización de datos correcta puede expresar de forma resumida y clara gran cantidad de información, ayudando a interpretar y asimilar la información más facilmente. 
+
+keywords: ["portafolio", "[tu área de especialización]", "proyectos", "habilidades", "experiencia"]
+
 format:
   html:
+    code-link: TRUE
     toc: TRUE
+    toc-title: "Ejemplos"
     toc-location: left
-    toc-title: Índice
     toc-expand: TRUE
-    css: styles.css
+    number-sections: TRUE
+    theme: css/style.css
+
 editor: visual
 page-layout: full
 knitr:
@@ -34,14 +47,17 @@ h2 {
 
 <h3 style="background: linear-gradient(to right, white, lightgrey); color: lightblue;">
 
-Repositorio Git:</h1>
+Repositorio Git:</h3>
 
 <https://github.com/MarioC0093/dataviz/blob/main/README.md>
 
-# Librerías básicas
+<h3 style="background: linear-gradient(to right, white, lightgrey); color: lightblue;">
+
+Librerías comunes:</h3>
 
 ```{r}
 #| code-fold: false
+library(readxl)
 library(tidyverse)
 library(ggplot2)
 library(glue)
@@ -52,7 +68,6 @@ library(glue)
 Gráfico de Gannt de un proceso de selección.
 
 Se tiene la fecha de inicio y de finalización de cada tarea. Para el status de cada tarea se compara la fecha actual con la fecha de finalización de la tarea.
-
 
 [**Datos**]{.underline}
 
@@ -122,7 +137,6 @@ tasks |> ggplot(aes(x = start, xend = end, y = task, yend = task, color = status
 
 Word cloud de las primeras diez mil palabras del Quijote.
 
-
 [**Librerías específicas.**]{.underline}
 
 ```{r}
@@ -132,11 +146,9 @@ library(tm)
 library(stopwords)
 ```
 
-
 [**Datos.**]{.underline}
 
 Fuente: <https://www.gutenberg.org/cache/epub/2000/pg2000.txt>
-
 
 [**Código.**]{.underline}
 
@@ -177,9 +189,8 @@ El número de escaños representado para cada partido político es proporcional 
 library(ggparliament)
 ```
 
-
 [**Datos.**]{.underline}
- 
+
 ```{r}
 datos_elecciones <- read_csv(file = "data/datos_elecciones_brutos.csv")
 datos_elecciones <- datos_elecciones |> filter(anno==max(anno)) |> filter(mes==max(mes))
@@ -227,7 +238,6 @@ datos_elecciones <- datos_elecciones |>
                          TRUE ~ "#462B25"))
 ```
 
-
 [**Código.**]{.underline}
 
 ```{r}
@@ -255,6 +265,49 @@ semi2 <- ggplot(semicircle, aes(x = x, y = y, colour = siglas)) +
 semi2
 ```
 
+# Gatitos e inflacción
+
+[**Librerías específicas.**]{.underline}
+
+```{r}
+library(gganimate)
+library(ggcats)
+```
+
+
+[**Datos.**]{.underline}
+
+[www.inflation.eu](https://www.inflation.eu/es/tasas-de-inflacion/espana/inflacion-historica/ipc-inflacion-espana.aspx)
+
+```{r}
+inflation <- rbind(read_excel("data/inflaccion.xlsx", sheet = "Spain"),
+                   read_excel("data/inflaccion.xlsx", sheet = "Italy"))
+
+colnames(inflation) <- c('annyo','inflaccion','annyo','inflaccion')
+inflation <- rbind(inflation[,c(1,2)],inflation[,c(3,4)])
+
+inflation[c('IPC', 'País', "annyo")] <- str_split_fixed(inflation$annyo, " ", 3)
+inflation <- inflation |> mutate(inflaccion = readr::parse_number(inflaccion)/100,
+                                 annyo = as.numeric(annyo))
+```
+
+
+[**Código.**]{.underline}
+
+```{r}
+inflation <- inflation |> mutate(gato = case_when(País == "España" ~ 'nyancat',
+                                      País == "Italia" ~ 'pop_close'))
+
+inflation |> ggplot(aes(x = annyo, y = inflaccion, group = País, color = País)) +
+  geom_line(size = 0.5) +
+  geom_cat(aes(cat = gato), size = 1) +
+  xlab("Año") +
+  ylab("Inflacción") +
+  transition_reveal(annyo) +
+  labs(title = "Datos históricos de la inflacción anual de España e Italia",
+              subtitle = "Dic. vs dic.",
+              caption = "Fuente: www.inflation.eu")
+```
 
 ### -----------
 
@@ -313,7 +366,6 @@ ggplot(data, aes(x = Categoria1, y = Proporcion, fill = Categoria2)) +
 #                  conds = product(rude_to_recline))) +
 #  labs(title='f(do_you_recline | rude_to_recline)')
 ```
-
 
 # Mapa de calor iteractivo
 
