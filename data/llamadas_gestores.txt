@@ -1,0 +1,101 @@
+Línea,idioma,tema,tiempo de espera en IVR,tiempo de conversación,tipo de usuario,motivo de la llamada
+General-Ciudad1-Gestor1,Español,Satisfacción,15,7,Cliente Activo,El cliente llama para expresar su insatisfacción con la velocidad del internet.
+Individual-Ciudad2-Gestor2,Inglés,Dudas,20,12,Nuevo Cliente,El cliente tiene preguntas sobre cómo configurar su nuevo router.
+General-Ciudad3-Gestor3,Español,Problema,5,8,Cliente Activo,El cliente reporta que el servicio de internet está interrumpido.
+Individual-Ciudad4-Gestor4,Francés,Publicidad,8,6,Otro,El cliente quiere información sobre nuevas ofertas y promociones.
+General-Ciudad5-Gestor5,Español,Satisfacción,30,15,Cliente Activo,El cliente está satisfecho con el servicio pero tiene un problema ocasional.
+Individual-Ciudad6-Gestor6,Inglés,Dudas,25,20,Nuevo Cliente,El cliente necesita ayuda con el ajuste de las configuraciones avanzadas del servicio.
+General-Ciudad7-Gestor7,Español,Problema,10,10,Cliente Activo,El cliente tiene problemas con la conexión que se corta frecuentemente.
+Individual-Ciudad8-Gestor8,Alemán,Publicidad,12,9,Otro,El cliente pregunta por las nuevas promociones y paquetes disponibles.
+General-Ciudad9-Gestor9,Español,Satisfacción,18,14,Cliente Activo,El cliente está feliz con el servicio pero tiene una queja menor sobre el soporte técnico.
+Individual-Ciudad10-Gestor10,Francés,Dudas,22,18,Nuevo Cliente,El cliente solicita información sobre la compatibilidad del servicio con su equipo.
+General-Ciudad11-Gestor11,Inglés,Problema,7,11,Cliente Activo,El cliente reporta problemas técnicos continuos con el servicio.
+Individual-Ciudad12-Gestor12,Español,Publicidad,14,10,Otro,El cliente quiere conocer los detalles sobre la última campaña de publicidad.
+General-Ciudad13-Gestor13,Alemán,Satisfacción,25,16,Cliente Activo,El cliente está satisfecho con el servicio y solo tiene preguntas sobre características adicionales.
+Individual-Ciudad14-Gestor14,Inglés,Dudas,17,15,Nuevo Cliente,El cliente tiene dudas sobre los cargos en su factura inicial.
+General-Ciudad15-Gestor15,Español,Problema,20,13,Cliente Activo,El cliente está experimentando interrupciones frecuentes en su conexión.
+Individual-Ciudad16-Gestor16,Francés,Publicidad,10,7,Otro,El cliente quiere saber más sobre los paquetes publicitarios recientes.
+General-Ciudad17-Gestor17,Español,Satisfacción,8,9,Cliente Activo,El cliente está satisfecho pero reporta un problema ocasional en la velocidad.
+Individual-Ciudad18-Gestor18,Inglés,Dudas,26,22,Nuevo Cliente,El cliente pregunta sobre el proceso de instalación y configuración del servicio.
+General-Ciudad19-Gestor19,Alemán,Problema,15,12,Cliente Activo,El cliente reporta que la conexión está más lenta de lo habitual.
+Individual-Ciudad20-Gestor20,Español,Publicidad,12,8,Otro,El cliente busca información sobre promociones y ofertas actuales.
+General-Ciudad21-Gestor21,Francés,Satisfacción,9,11,Cliente Activo,El cliente está satisfecho pero desea aclarar algunas dudas sobre el servicio.
+Individual-Ciudad22-Gestor22,Inglés,Dudas,20,17,Nuevo Cliente,El cliente necesita ayuda para entender los términos y condiciones del contrato.
+General-Ciudad23-Gestor23,Español,Problema,11,10,Cliente Activo,El cliente reporta problemas con el servicio de televisión por cable.
+Individual-Ciudad24-Gestor24,Alemán,Publicidad,14,9,Otro,El cliente quiere información sobre la última oferta de paquetes de internet.
+General-Ciudad25-Gestor25,Inglés,Satisfacción,18,13,Cliente Activo,El cliente está satisfecho con el servicio pero tiene algunas sugerencias para mejorar.
+Individual-Ciudad26-Gestor26,Francés,Dudas,25,19,Nuevo Cliente,El cliente tiene dudas sobre la política de cancelación del servicio.
+General-Ciudad27-Gestor27,Español,Problema,9,12,Cliente Activo,El cliente está experimentando problemas con la calidad de la conexión.
+Individual-Ciudad28-Gestor28,Alemán,Publicidad,16,11,Otro,El cliente pregunta sobre las campañas publicitarias vigentes.
+General-Ciudad29-Gestor29,Inglés,Satisfacción,14,14,Cliente Activo,El cliente está satisfecho pero desea hacer una sugerencia sobre el soporte técnico.
+Individual-Ciudad30-Gestor30,Español,Dudas,22,15,Nuevo Cliente,El cliente tiene preguntas sobre el uso de la aplicación móvil.
+General-Ciudad31-Gestor31,Francés,Problema,12,13,Cliente Activo,El cliente reporta interrupciones en el servicio de internet.
+Individual-Ciudad32-Gestor32,Alemán,Publicidad,10,8,Otro,El cliente busca información sobre las últimas ofertas publicitarias.
+General-Ciudad33-Gestor33,Español,Satisfacción,20,17,Cliente Activo,El cliente está satisfecho pero ha tenido algunos problemas menores con el servicio.
+Individual-Ciudad34-Gestor34,Inglés,Dudas,15,12,Nuevo Cliente,El cliente tiene dudas sobre los cargos adicionales en su factura.
+General-Ciudad35-Gestor35,Francés,Problema,13,10,Cliente Activo,El cliente reporta problemas con la velocidad de conexión.
+Individual-Ciudad36-Gestor36,Alemán,Publicidad,11,9,Otro,El cliente quiere conocer más sobre la campaña de publicidad reciente.
+General-Ciudad37-Gestor37,Español,Satisfacción,18,14,Cliente Activo,El cliente está satisfecho pero tiene algunas preguntas sobre el uso del servicio.
+Individual-Ciudad38-Gestor38,Inglés,Dudas,24,18,Nuevo Cliente,El cliente necesita aclaraciones sobre la garantía del servicio.
+General-Ciudad39-Gestor39,Francés,Problema,16,11,Cliente Activo,El cliente reporta problemas con la conexión a internet en varias ocasiones.
+Individual-Ciudad40-Gestor40,Español,Publicidad,13,7,Otro,El cliente quiere información sobre nuevas promociones y descuentos.
+General-Ciudad41-Gestor41,Alemán,Satisfacción,10,9,Cliente Activo,El cliente está satisfecho pero tiene algunas quejas menores.
+Individual-Ciudad42-Gestor42,Inglés,Dudas,18,15,Nuevo Cliente,El cliente necesita ayuda con el proceso de instalación del servicio.
+General-Ciudad43-Gestor43,Español,Problema,8,11,Cliente Activo,El cliente reporta problemas continuos con el servicio de internet.
+Individual-Ciudad44-Gestor44,Francés,Publicidad,12,8,Otro,El cliente quiere saber más sobre las ofertas actuales y promociones.
+General-Ciudad45-Gestor45,Alemán,Satisfacción,19,12,Cliente Activo,El cliente está satisfecho pero busca aclaraciones sobre el soporte técnico.
+Individual-Ciudad46-Gestor46,Español,Dudas,23,16,Nuevo Cliente,El cliente tiene preguntas sobre los servicios adicionales ofrecidos.
+General-Ciudad47-Gestor47,Inglés,Problema,9,10,Cliente Activo,El cliente reporta problemas con la calidad de la señal.
+Individual-Ciudad48-Gestor48,Francés,Publicidad,14,7,Otro,El cliente quiere información sobre los últimos paquetes de publicidad.
+General-Ciudad49-Gestor49,Español,Satisfacción,11,13,Cliente Activo,El cliente está satisfecho pero desea discutir un problema menor con el servicio.
+Individual-Ciudad50-Gestor50,Alemán,Dudas,17,14,Nuevo Cliente,El cliente busca clarificaciones sobre el contrato de servicio.
+General-Ciudad51-Gestor51,Inglés,Problema,21,15,Cliente Activo,El cliente reporta cortes frecuentes en la conexión de internet.
+Individual-Ciudad52-Gestor52,Español,Publicidad,13,9,Otro,El cliente quiere conocer las últimas ofertas y promociones.
+General-Ciudad53-Gestor53,Francés,Satisfacción,20,18,Cliente Activo,El cliente está satisfecho pero tiene dudas sobre la calidad del servicio.
+Individual-Ciudad54-Gestor54,Alemán,Dudas,19,16,Nuevo Cliente,El cliente tiene dudas sobre la configuración del equipo.
+General-Ciudad55-Gestor55,Español,Problema,12,11,Cliente Activo,El cliente reporta problemas con la conexión a internet.
+Individual-Ciudad56-Gestor56,Inglés,Publicidad,11,8,Otro,El cliente busca información sobre nuevas ofertas y promociones.
+General-Ciudad57-Gestor57,Francés,Satisfacción,14,10,Cliente Activo,El cliente está satisfecho con el servicio pero desea hacer algunas sugerencias.
+Individual-Ciudad58-Gestor58,Alemán,Dudas,21,18,Nuevo Cliente,El cliente tiene preguntas sobre el uso del servicio.
+General-Ciudad59-Gestor59,Español,Problema,16,14,Cliente Activo,El cliente reporta problemas con la conexión intermitente.
+Individual-Ciudad60-Gestor60,Inglés,Publicidad,14,7,Otro,El cliente quiere saber más sobre las promociones actuales.
+General-Ciudad61-Gestor61,Francés,Satisfacción,12,13,Cliente Activo,El cliente está satisfecho pero tiene preguntas sobre el soporte.
+Individual-Ciudad62-Gestor62,Alemán,Dudas,20,15,Nuevo Cliente,El cliente busca información sobre el proceso de facturación.
+General-Ciudad63-Gestor63,Español,Problema,10,12,Cliente Activo,El cliente reporta problemas recurrentes con la conexión.
+Individual-Ciudad64-Gestor64,Inglés,Publicidad,16,8,Otro,El cliente quiere información sobre nuevas campañas publicitarias.
+General-Ciudad65-Gestor65,Francés,Satisfacción,18,16,Cliente Activo,El cliente está satisfecho pero tiene algunas preguntas sobre el servicio.
+Individual-Ciudad66-Gestor66,Alemán,Dudas,23,19,Nuevo Cliente,El cliente tiene dudas sobre la configuración inicial.
+General-Ciudad67-Gestor67,Español,Problema,14,11,Cliente Activo,El cliente reporta problemas con la velocidad de conexión.
+Individual-Ciudad68-Gestor68,Inglés,Publicidad,12,7,Otro,El cliente busca información sobre las promociones vigentes.
+General-Ciudad69-Gestor69,Francés,Satisfacción,15,13,Cliente Activo,El cliente está satisfecho pero tiene dudas sobre características del servicio.
+Individual-Ciudad70-Gestor70,Alemán,Dudas,21,17,Nuevo Cliente,El cliente necesita ayuda para entender la política de servicio.
+General-Ciudad71-Gestor71,Español,Problema,9,10,Cliente Activo,El cliente reporta interrupciones en el servicio.
+Individual-Ciudad72-Gestor72,Inglés,Publicidad,13,9,Otro,El cliente quiere conocer más sobre las últimas promociones.
+General-Ciudad73-Gestor73,Francés,Satisfacción,22,15,Cliente Activo,El cliente está satisfecho pero tiene una queja menor.
+Individual-Ciudad74-Gestor74,Alemán,Dudas,19,14,Nuevo Cliente,El cliente tiene preguntas sobre los cargos en su factura.
+General-Ciudad75-Gestor75,Español,Problema,16,12,Cliente Activo,El cliente reporta problemas recurrentes con la calidad de conexión.
+Individual-Ciudad76-Gestor76,Inglés,Publicidad,11,8,Otro,El cliente busca información sobre campañas actuales.
+General-Ciudad77-Gestor77,Francés,Satisfacción,20,14,Cliente Activo,El cliente está satisfecho pero tiene algunas dudas sobre el servicio.
+Individual-Ciudad78-Gestor78,Alemán,Dudas,24,19,Nuevo Cliente,El cliente necesita aclaraciones sobre el uso del servicio.
+General-Ciudad79-Gestor79,Español,Problema,12,11,Cliente Activo,El cliente reporta una caída constante en la conexión.
+Individual-Ciudad80-Gestor80,Inglés,Publicidad,15,10,Otro,El cliente pregunta por las últimas ofertas publicitarias.
+General-Ciudad81-Gestor81,Francés,Satisfacción,18,16,Cliente Activo,El cliente está satisfecho pero tiene sugerencias para mejorar el servicio.
+Individual-Ciudad82-Gestor82,Alemán,Dudas,20,15,Nuevo Cliente,El cliente busca aclaraciones sobre los servicios incluidos.
+General-Ciudad83-Gestor83,Español,Problema,14,12,Cliente Activo,El cliente tiene problemas con la velocidad de conexión.
+Individual-Ciudad84-Gestor84,Inglés,Publicidad,16,9,Otro,El cliente quiere información sobre promociones actuales.
+General-Ciudad85-Gestor85,Francés,Satisfacción,21,13,Cliente Activo,El cliente está satisfecho pero desea discutir un problema menor.
+Individual-Ciudad86-Gestor86,Alemán,Dudas,23,18,Nuevo Cliente,El cliente necesita ayuda con el proceso de facturación.
+General-Ciudad87-Gestor87,Español,Problema,11,10,Cliente Activo,El cliente reporta problemas intermitentes con la conexión.
+Individual-Ciudad88-Gestor88,Inglés,Publicidad,12,8,Otro,El cliente busca información sobre nuevas ofertas.
+General-Ciudad89-Gestor89,Francés,Satisfacción,20,15,Cliente Activo,El cliente está satisfecho pero tiene preguntas sobre características del servicio.
+Individual-Ciudad90-Gestor90,Alemán,Dudas,18,14,Nuevo Cliente,El cliente tiene dudas sobre la política de cancelación.
+General-Ciudad91-Gestor91,Español,Problema,15,13,Cliente Activo,El cliente reporta una calidad de conexión deficiente.
+Individual-Ciudad92-Gestor92,Inglés,Publicidad,14,10,Otro,El cliente quiere saber más sobre promociones vigentes.
+General-Ciudad93-Gestor93,Francés,Satisfacción,12,11,Cliente Activo,El cliente está satisfecho pero tiene preguntas sobre el soporte.
+Individual-Ciudad94-Gestor94,Alemán,Dudas,19,16,Nuevo Cliente,El cliente busca clarificaciones sobre el uso del servicio.
+General-Ciudad95-Gestor95,Español,Problema,11,12,Cliente Activo,El cliente reporta problemas recurrentes con la conexión.
+Individual-Ciudad96-Gestor96,Inglés,Publicidad,13,8,Otro,El cliente busca información sobre ofertas actuales.
+General-Ciudad97-Gestor97,Francés,Satisfacción,16,13,Cliente Activo,El cliente está satisfecho pero tiene algunas dudas.
+Individual-Ciudad98-Gestor98,Alemán,Dudas,22,18,Nuevo Cliente,El cliente tiene dudas sobre el proceso de instalación.
+General-Ciudad99-Gestor99,Español,Problema,9,11,Cliente Activo,El cliente reporta una conexión intermitente.
+Individual-Ciudad100-Gestor100,Inglés,Publicidad,15,7,Otro,El cliente pregunta por nuevas ofertas y promociones.

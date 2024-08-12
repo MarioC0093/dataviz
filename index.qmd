@@ -1,16 +1,28 @@
 ---
-title: "Choice of Brand for Crackers"
+title: "Dataviz"
 author: "Mario Camacho"
-date: today
-#date-format: long
+date-modified: last-modified
 date-format: "DD MMMM YYYY"
+lang: es
+
+categories: ["Portafolio", "Dataviz"]
+
+description: "Un portafolio que muestra algunas de mis visualizaciones y sirve de plantilla para toda persona que necesite ideas para una representación de sus datos."
+
+abstract: |
+  Una visualización de datos correcta puede expresar de forma resumida y clara gran cantidad de información, ayudando a interpretar y asimilar la información más facilmente. 
+
+keywords: ["portafolio", "[tu área de especialización]", "proyectos", "habilidades", "experiencia"]
+
 format:
   html:
+    code-link: true
     toc: TRUE
+    toc-title: "Ejemplos"
     toc-location: left
-    toc-title: Índice
     toc-expand: TRUE
-    css: styles.css
+    number-sections: true
+
 editor: visual
 page-layout: full
 knitr:
@@ -34,11 +46,13 @@ h2 {
 
 <h3 style="background: linear-gradient(to right, white, lightgrey); color: lightblue;">
 
-Repositorio Git:</h1>
+Repositorio Git:</h3>
 
 <https://github.com/MarioC0093/dataviz/blob/main/README.md>
 
-# Librerías básicas
+<h3 style="background: linear-gradient(to right, white, lightgrey); color: lightblue;">
+
+Librerías comunes:</h3>
 
 ```{r}
 #| code-fold: false
@@ -52,7 +66,6 @@ library(glue)
 Gráfico de Gannt de un proceso de selección.
 
 Se tiene la fecha de inicio y de finalización de cada tarea. Para el status de cada tarea se compara la fecha actual con la fecha de finalización de la tarea.
-
 
 [**Datos**]{.underline}
 
@@ -122,7 +135,6 @@ tasks |> ggplot(aes(x = start, xend = end, y = task, yend = task, color = status
 
 Word cloud de las primeras diez mil palabras del Quijote.
 
-
 [**Librerías específicas.**]{.underline}
 
 ```{r}
@@ -132,11 +144,9 @@ library(tm)
 library(stopwords)
 ```
 
-
 [**Datos.**]{.underline}
 
 Fuente: <https://www.gutenberg.org/cache/epub/2000/pg2000.txt>
-
 
 [**Código.**]{.underline}
 
@@ -177,9 +187,8 @@ El número de escaños representado para cada partido político es proporcional 
 library(ggparliament)
 ```
 
-
 [**Datos.**]{.underline}
- 
+
 ```{r}
 datos_elecciones <- read_csv(file = "data/datos_elecciones_brutos.csv")
 datos_elecciones <- datos_elecciones |> filter(anno==max(anno)) |> filter(mes==max(mes))
@@ -227,7 +236,6 @@ datos_elecciones <- datos_elecciones |>
                          TRUE ~ "#462B25"))
 ```
 
-
 [**Código.**]{.underline}
 
 ```{r}
@@ -255,6 +263,46 @@ semi2 <- ggplot(semicircle, aes(x = x, y = y, colour = siglas)) +
 semi2
 ```
 
+# Gatitos
+```{r}
+# install.packages("Ecdat")
+library(Ecdat)
+# install.packages("tidyverse")
+library(tidyverse)
+# install.packages("gganimate")
+library(gganimate)
+# install.packages("remotes")
+# remotes::install_github("R-CoderDotCom/ggcats@main")
+library(ggcats)
+
+# Data frame
+ dat <-
+   incomeInequality %>%
+   select(Year, P99, median) %>%
+   rename(income_median = median,
+          income_99percent = P99) %>%
+   pivot_longer(cols = starts_with("income"),
+                names_to = "income",
+                names_prefix = "income_")
+
+# Gatos para cada línea
+dat$cat <- rep(NA, 132)
+dat$cat[which(dat$income == "median")] <- "nyancat"
+dat$cat[which(dat$income == "99percent")] <- rep(c("pop_close", "pop"), 33)
+
+# Animación
+ggplot(dat, aes(x = Year, y = value, group = income, color = income)) +
+   geom_line(size = 2) +
+   ggtitle("ggcats, a core package of the memeverse") +
+   geom_cat(aes(cat = cat), size = 5) +
+   xlab("Cats") +
+   ylab("Cats") +
+   theme(legend.position = "none",
+         plot.title = element_text(size = 20),
+         axis.text = element_blank(),
+         axis.ticks = element_blank()) +
+   transition_reveal(Year)
+```
 
 ### -----------
 
@@ -313,7 +361,6 @@ ggplot(data, aes(x = Categoria1, y = Proporcion, fill = Categoria2)) +
 #                  conds = product(rude_to_recline))) +
 #  labs(title='f(do_you_recline | rude_to_recline)')
 ```
-
 
 # Mapa de calor iteractivo
 
