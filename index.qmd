@@ -295,6 +295,7 @@ inflation <- inflation |> mutate(inflaccion = readr::parse_number(inflaccion)/10
 [**Código.**]{.underline}
 
 ```{r}
+#| out-width: 80%
 inflation <- inflation |> mutate(gato = case_when(País == "España" ~ 'nyancat',
                                       País == "Italia" ~ 'pop_close'))
 
