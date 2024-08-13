@@ -310,6 +310,114 @@ inflation |> ggplot(aes(x = annyo, y = inflaccion, group = País, color = País)
               caption = "Fuente: www.inflation.eu")
 ```
 
+
+# Gráfico de dispersión
+
+```{r}
+library(palmerpenguins)
+```
+
+
+```{r}
+# Crear el gráfico de dispersión
+ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+  geom_point(size = 3, alpha = 0.6) +  # Tamaño y transparencia de los puntos
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "black") +  # Línea de regresión + 
+  geom_smooth(aes(group=species, color=species),method = "lm", se = FALSE, linetype = "dashed") +  # Línea de regresión
+  scale_color_manual(values = c("Adelie" = "#FF5733", "Chinstrap" = "#33FF57", "Gentoo" = "#3357FF")) +  # Colores personalizados
+  labs(
+    title = "Relación entre la Longitud y la Profundidad del Pico de los Pingüinos",
+    subtitle = "Diferentes especies de pingüinos en el archipiélago Palmer",
+    x = "Longitud del Pico (mm)",
+    y = "Profundidad del Pico (mm)",
+    color = "Especie"
+  ) +
+  theme_minimal(base_size = 8) +  # Tema minimalista con tamaño de fuente base
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 12),  # Título en negrita y centrado
+    plot.subtitle = element_text(hjust = 0.5, size = 12),  # Subtítulo centrado
+    axis.title = element_text(face = "italic"),  # Ejes en cursiva
+    legend.position = "top",  # Posición de la leyenda
+    legend.background = element_rect(fill = "lightblue", color = "blue", size = 0.5),  # Fondo y borde de la leyenda
+    panel.grid.major = element_line(color = "gray80")  # Líneas de cuadrícula personalizadas
+  )
+```
+
+
+# Boxplot
+
+```{r}
+library(palmerpenguins)
+```
+
+```{r}
+# Crear el gráfico de caja
+ggplot(data = penguins, aes(x = species, y = body_mass_g, fill = sex)) +
+  geom_boxplot(outlier.color = "yellow3", outlier.shape = 16, outlier.size = 3) +  # Personalización de outliers
+  scale_fill_manual(values = c("male" = "#FF6347", "female" = "#4682B4")) +  # Colores personalizados para sexo
+  labs(
+    title = "Distribución de la Masa Corporal por Especie y Sexo",
+    subtitle = "Pingüinos del archipiélago Palmer",
+    x = "Especie de Pingüino",
+    y = "Masa Corporal (g)",
+    fill = "Sexo"
+  ) +
+  theme_classic(base_size = 10) +  # Tema clásico con tamaño de fuente base
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 12),  # Título en negrita y centrado
+    plot.subtitle = element_text(hjust = 0.5, size = 12),  # Subtítulo centrado
+    axis.title = element_text(face = "bold"),  # Ejes en negrita
+    legend.position = "right",  # Leyenda a la derecha
+    panel.background = element_rect(fill = "lightgray")  # Fondo del panel en gris claro
+  )
+```
+# Mapa iteractivo
+
+https://github.com/CSSEGISandData/COVID-19?tab=readme-ov-file
+
+```{r}
+library(leaflet)
+library(dplyr)
+library(sf)
+library(readr)
+```
+
+```{r}
+# Datos ficticios de COVID-19 por provincias en España
+covid_data <- data.frame(
+  provincia = c("Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza"),
+  lat = c(40.4168, 41.3851, 39.4699, 37.3891, 41.6488),
+  lon = c(-3.7038, 2.1734, -0.3763, -5.9845, -0.8891),
+  casos = c(500000, 450000, 200000, 180000, 150000)
+)
+```
+
+```{r}
+# Crear el mapa interactivo
+leaflet(covid_data) %>%
+  addTiles() %>%  # Añadir el fondo del mapa
+  addCircleMarkers(
+    ~lon, ~lat,  # Coordenadas
+    radius = ~sqrt(casos) / 1000,  # Tamaño del círculo proporcional al número de casos
+    color = "red",
+    fillColor = "red",
+    fillOpacity = 0.7,
+    popup = ~paste0("<strong>Provincia: </strong>", provincia,
+                    "<br><strong>Casos: </strong>", casos)
+  ) %>%
+  addLegend(
+    position = "bottomright",
+    title = "Número de Casos",
+    values = ~casos,
+    colors = c("red","yellow"),
+    labels = c("Menos", "Más"),
+    opacity = 0.7
+  ) %>%
+  setView(lng = -3.7038, lat = 40.4168, zoom = 6)  # Centrar el mapa en España
+```
+
+
+
 ### -----------
 
 # Gráfico de mosaico
@@ -487,21 +595,6 @@ radarchart(data, axistype = 1,
 
 ```
 
-# Gráfico de Superficie
-
-```{r}
-# Librerías
-library(plotly)
-
-# Datos
-x <- seq(-10, 10, length.out = 100)
-y <- seq(-10, 10, length.out = 100)
-z <- outer(x, y, function(x, y) cos(sqrt(x^2 + y^2)))
-
-# Gráfico de superficie
-plot_ly(x = ~x, y = ~y, z = ~z, type = "surface") %>%
-  layout(title = "Gráfico de superficie")
-```
 
 # Gráfico de Mariposa (Population Pyramid)
 
