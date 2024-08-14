@@ -23,6 +23,11 @@ format:
     toc-expand: TRUE
     number-sections: TRUE
     theme: css/style.css
+    
+include-in-header:
+  text: |
+    <meta name="keywords" content="dataviz, visualizacion, datos, R, ejemplo, personalizado"/>
+    <link rel="icon" type="image/png" href="metadata/favicon.png">
 
 editor: visual
 page-layout: full
@@ -30,20 +35,10 @@ knitr:
   opts_chunk: 
     R.options:
       width: 110
+      out-width: 80%
 code-fold: true
 warning: false
 ---
-
-```{css echo=FALSE}
-h1 {
-  color: black;
-  background: linear-gradient(to right, lightgrey, powderblue);
-}
-
-h2 {
-  color: blue;
-}
-```
 
 <h3 style="background: linear-gradient(to right, white, lightgrey); color: lightblue;">
 
@@ -57,10 +52,15 @@ Librerías comunes:</h3>
 
 ```{r}
 #| code-fold: false
+library(datasets)
 library(readxl)
 library(tidyverse)
+library(paletteer) # Esta librería permite ver los colores en la consola
 library(ggplot2)
 library(glue)
+library(scales) # función alpha que ajusta la transparencia
+library(ggtext)
+# library(help = "datasets")
 ```
 
 # Gráfico de Gannt
@@ -301,32 +301,46 @@ inflation <- inflation |> mutate(gato = case_when(País == "España" ~ 'nyancat'
 
 inflation |> ggplot(aes(x = annyo, y = inflaccion, group = País, color = País)) +
   geom_line(size = 0.5) +
-  geom_cat(aes(cat = gato), size = 1) +
+  geom_cat(aes(cat = gato), size = 1.5) +
   xlab("Año") +
   ylab("Inflacción") +
   transition_reveal(annyo) +
-  labs(title = "Datos históricos de la inflacción anual de España e Italia",
-              subtitle = "Dic. vs dic.",
+  scale_colour_discrete(
+    labels = function(x) {
+      ifelse(x == "Other", "Other", paste0("*", x, "*"))
+    }
+  ) +
+  theme_minimal() +
+  theme(legend.text = element_markdown(), # Esto para conseguir usar la cursiva
+        legend.key = element_rect(fill = "white", color = "black"),
+        legend.background = element_rect(fill = "lightgrey", color = "red"),
+        legend.box.background = element_rect(color = "black"),
+        legend.title = element_text(face = "italic")) +
+  labs(title = "Inflacción histórica anual de España e Italia",
+              subtitle = "Diciembre vs diciembre año anterior",
               caption = "Fuente: www.inflation.eu")
 ```
 
 
-# Gráfico de dispersión
+# Gráfico de dispersión (1)
+
+[**Librerías específicas.**]{.underline}
 
 ```{r}
 library(palmerpenguins)
 ```
 
+[**Código.**]{.underline}
 
 ```{r}
-# Crear el gráfico de dispersión
-ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
-  geom_point(size = 3, alpha = 0.6) +  # Tamaño y transparencia de los puntos
-  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "black") +  # Línea de regresión + 
-  geom_smooth(aes(group=species, color=species),method = "lm", se = FALSE, linetype = "dashed") +  # Línea de regresión
+#| fig-align: center
+penguins |> ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) + 
+  geom_point(size = 2, alpha = 0.6) + 
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "black") +  # Línea de regresión
+  geom_smooth(aes(group=species, color=species), method = "lm", se = FALSE, linetype = 6) +  # Línea de regresión por grupos
   scale_color_manual(values = c("Adelie" = "#FF5733", "Chinstrap" = "#33FF57", "Gentoo" = "#3357FF")) +  # Colores personalizados
   labs(
-    title = "Relación entre la Longitud y la Profundidad del Pico de los Pingüinos",
+    title = "Relación entre la longitud y la Profundidad del Pico de los Pingüinos",
     subtitle = "Diferentes especies de pingüinos en el archipiélago Palmer",
     x = "Longitud del Pico (mm)",
     y = "Profundidad del Pico (mm)",
@@ -334,27 +348,55 @@ ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = speci
   ) +
   theme_minimal(base_size = 8) +  # Tema minimalista con tamaño de fuente base
   theme(
-    plot.title = element_text(face = "bold", hjust = 0.5, size = 12),  # Título en negrita y centrado
-    plot.subtitle = element_text(hjust = 0.5, size = 12),  # Subtítulo centrado
-    axis.title = element_text(face = "italic"),  # Ejes en cursiva
-    legend.position = "top",  # Posición de la leyenda
-    legend.background = element_rect(fill = "lightblue", color = "blue", size = 0.5),  # Fondo y borde de la leyenda
-    panel.grid.major = element_line(color = "gray80")  # Líneas de cuadrícula personalizadas
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 12),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    axis.title = element_text(face = "italic"),  # ejes en cursiva
+    legend.position = "top",
+    legend.background = element_rect(fill = "lightblue1", color = "blue", size = 0.5),  # fondo y borde de la leyenda
+    panel.grid.major = element_line(color = "gray80")  # líneas de cuadrícula
   )
 ```
 
+# Gráfico de dispersión (2)
+
+```{r}
+mtcars |> ggplot(aes(x = wt, y = mpg, color = factor(cyl), shape = factor(gear))) +
+  geom_point(size = 4) +
+  scale_color_manual(values = c("red", "blue", "green"),
+                     name = "Cilindrada (cyl)",
+                     labels = c("4 cilindros", "6 cilindros", "8 cilindros")) + 
+  scale_shape_manual(values = c(16, 17, 18),
+                     name = "Engranaje (gear)",
+                     labels = c("3 marchas", "4 marchas", "5 marchas")) + 
+  labs(title = "Relación entre Peso y Consumo de Combustible",
+       subtitle = "Datos del conjunto mtcars",
+       x = "Peso (1000 lbs)",
+       y = "Millas por Galón (mpg)",
+       caption = "Fuente: Motor Trend Car Road Tests") +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.title = element_text(face = "bold", size = 8),
+        legend.text = element_text(size = 6),
+        legend.key = element_rect(fill = "white", color = "black"),  # Fondo de la leyenda blanco con borde negro
+        legend.background = element_rect(fill = "lightgrey", color = "black"),  # Fondo de la leyenda gris claro con borde negro
+        legend.box.background = element_rect(color = "black"))  # Borde negro alrededor de la caja de la leyenda
+
+```
 
 # Boxplot
+
+[**Librerías específicas.**]{.underline}
 
 ```{r}
 library(palmerpenguins)
 ```
 
 ```{r}
+#| fig-align: center
 # Crear el gráfico de caja
-ggplot(data = penguins, aes(x = species, y = body_mass_g, fill = sex)) +
-  geom_boxplot(outlier.color = "yellow3", outlier.shape = 16, outlier.size = 3) +  # Personalización de outliers
-  scale_fill_manual(values = c("male" = "#FF6347", "female" = "#4682B4")) +  # Colores personalizados para sexo
+penguins |> ggplot(aes(x = species, y = body_mass_g, fill = sex)) +
+  geom_boxplot(outlier.color = "yellow3", outlier.shape = 16, outlier.size = 3) +  # personalización de outliers
+  scale_fill_manual(values = c("male" = "#FF6347", "female" = "#4682B4"), na.value ="white") +
   labs(
     title = "Distribución de la Masa Corporal por Especie y Sexo",
     subtitle = "Pingüinos del archipiélago Palmer",
@@ -367,7 +409,7 @@ ggplot(data = penguins, aes(x = species, y = body_mass_g, fill = sex)) +
     plot.title = element_text(face = "bold", hjust = 0.5, size = 12),  # Título en negrita y centrado
     plot.subtitle = element_text(hjust = 0.5, size = 12),  # Subtítulo centrado
     axis.title = element_text(face = "bold"),  # Ejes en negrita
-    legend.position = "right",  # Leyenda a la derecha
+    legend.position = "right",
     panel.background = element_rect(fill = "lightgray")  # Fondo del panel en gris claro
   )
 ```
@@ -415,6 +457,89 @@ leaflet(covid_data) %>%
   ) %>%
   setView(lng = -3.7038, lat = 40.4168, zoom = 6)  # Centrar el mapa en España
 ```
+# Gráfico de Radar o Araña
+
+[**Librerías específicas.**]{.underline}
+
+```{r}
+library(fmsb)
+```
+
+[**Datos.**]{.underline}
+
+```{r}
+df <- as.data.frame(matrix(USAccDeaths, ncol = 12, byrow = TRUE))
+colnames(df) <- month.abb
+rownames(df) <- seq(start(USAccDeaths)[1], end(USAccDeaths)[1])
+```
+
+```{r}
+# Es recomendable incluir una primera fila con el máximo a mostrar en el gráfico y una segunda línea con el mínimo a mostrar en el gráfico
+df <- rbind(rep(plyr::round_any(max(df), 100, f = ceiling), ncol(df)),
+              rep(plyr::round_any(min(df), 1000, f = floor), ncol(df)),
+            df)
+```
+
+[**Código.**]{.underline}
+
+```{r}
+# La función radarchart no tiene un argumento para cambiar el color del fondo del panel
+par(bg = "#f2feff")
+
+# El gráfico no abarca todo el panel. Pequeño truco para hacer que el gráfico parezca más grande
+# (Al final no lo incliyo porque relleno ese espacio con el título del gráfico)
+par(mar = c(2, 2, 2, 2))
+
+# Defino paleta de colores
+paleta_colores <- paletteer_d("ggthemes::wsj_colors6")
+```
+
+
+```{r}
+df |> as.data.frame() |>
+  radarchart(axistype = 2,  # Tipo de ejes
+             maxmin = TRUE,  # Incluir los valores máximo y mínimo del dataser
+             title = "Serie temporal de muertes accidentales en EE.UU.",
+             
+             # Tamaño de las labels de los vértices del polígono
+             vlcex = 1,
+             
+             # Tamaño de las valores de los vértices del polígono
+             palcex=0.6,
+             # Colores para las líneas de las series
+             pcol = paleta_colores,
+             
+             # Colores con transparencia para las áreas de las series
+             pfcol = alpha(paleta_colores, 0.05), 
+             
+             # Parámetros de la cuadrícula
+             cglcol = "skyblue",  # Color de la cuadrícula
+             cglty = 1,  # Tipo de línea de la cuadrícula
+             axislabcol = "blue",  # Color de las etiquetas de los ejes
+             #caxislabels = seq(0, 20, 5),  # Etiquetas de los ejes
+             cglwd = 0.8) # Ancho de la línea de la cuadrícula
+
+# Añadir título y subtítulo
+title(#main = "",
+      sub = "Se muestran los años de 1973 a 1978",
+      line = 1)  # Ajusta la posición del título y subtítulo
+
+
+# Añadir la leyenda al gráfico
+legend("right",
+       legend = rownames(df)[-c(1,2)],  # Texto de la leyenda
+       bty = "n",  # Sin caja alrededor de la leyenda
+       pch = 20,  # Tipo de símbolo en la leyenda
+       col = alpha(paleta_colores, 0.7),  # Colores de la leyenda
+       text.col = "grey25",  # Color del texto de la leyenda
+       pt.cex = 1,  # Tamaño de los puntos en la leyenda
+       cex = 0.8,  # Tamaño del texto de la leyenda
+       #x.intersp = 0.1,  # Espaciado horizontal entre símbolos y texto
+       #y.intersp = 0.1,  # Espaciado vertical entre líneas de la leyenda
+       title = "Años",  # Título de la leyenda
+       title.cex = 0.9)  # Tamaño del texto del título de la leyenda
+```
+
 
 
 
@@ -550,7 +675,6 @@ sankeyNetwork(Links = links, Nodes = nodes, Source = "source", Target = "target"
 
 ```
 
-# Gráfico de Radar o Araña
 
 ```{r}
 # Librerías
