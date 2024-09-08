@@ -1,0 +1,59 @@
+project:
+  type: book
+
+book:
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - src/boxplot.qmd
+    - src/word_cloud.qmd
+    - src/parlamento.qmd
+    - src/grafico_dispersion.qmd
+    - src/gatitos_inflaccion.qmd
+    - src/grafico_gannt.qmd
+    - src/grafico_radar.qmd
+    - src/mapas.qmd
+    - src/otros.qmd
+
+lang: es
+
+#bibliography: references.bib
+
+categories: ["Portafolio", "Dataviz"]
+
+description: "Un portafolio que muestra algunas de mis visualizaciones y sirve de plantilla para toda persona que necesite ideas para una representación de sus datos."
+
+abstract: |
+  Una visualización de datos correcta puede expresar de forma resumida y clara gran cantidad de información, ayudando a interpretar y asimilar la información más facilmente. 
+
+keywords: ["portafolio", "[tu área de especialización]", "proyectos", "habilidades", "experiencia"]
+
+format:
+  html:
+    grid:
+      sidebar-width: 300px
+      body-width: 1000px
+      margin-width: 100px
+    code-link: true
+    toc: true
+    toc-title: ""
+    toc-location: right
+    toc-expand: true
+    number-sections: false
+    css: css/styles.css
+    
+include-in-header:
+  text: |
+    <meta name="keywords" content="dataviz, visualizacion, datos, R, ejemplo, personalizado"/>
+    <link rel="icon" type="image/png" href="metadata/favicon.png">
+
+editor: visual
+page-layout: full
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 110
+      out-width: 80%
+code-fold: true
+warning: false
+

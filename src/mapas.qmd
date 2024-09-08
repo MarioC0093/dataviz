@@ -1,0 +1,50 @@
+---
+title: " Mapa iteractivo"
+---
+
+```{r, child="../librerias.qmd"}
+#| include: false
+```
+
+https://github.com/CSSEGISandData/COVID-19?tab=readme-ov-file
+
+```{r}
+library(leaflet)
+library(dplyr)
+library(sf)
+library(readr)
+```
+
+```{r}
+# Datos ficticios de COVID-19 por provincias en España
+covid_data <- data.frame(
+  provincia = c("Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza"),
+  lat = c(40.4168, 41.3851, 39.4699, 37.3891, 41.6488),
+  lon = c(-3.7038, 2.1734, -0.3763, -5.9845, -0.8891),
+  casos = c(500000, 450000, 200000, 180000, 150000)
+)
+```
+
+```{r}
+# Crear el mapa interactivo
+leaflet(covid_data) %>%
+  addTiles() %>%  # Añadir el fondo del mapa
+  addCircleMarkers(
+    ~lon, ~lat,  # Coordenadas
+    radius = ~sqrt(casos) / 1000,  # Tamaño del círculo proporcional al número de casos
+    color = "red",
+    fillColor = "red",
+    fillOpacity = 0.7,
+    popup = ~paste0("<strong>Provincia: </strong>", provincia,
+                    "<br><strong>Casos: </strong>", casos)
+  ) %>%
+  addLegend(
+    position = "bottomright",
+    title = "Número de Casos",
+    values = ~casos,
+    colors = c("red","yellow"),
+    labels = c("Menos", "Más"),
+    opacity = 0.7
+  ) %>%
+  setView(lng = -3.7038, lat = 40.4168, zoom = 6)  # Centrar el mapa en España
+```

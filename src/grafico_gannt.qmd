@@ -1,0 +1,75 @@
+---
+title: "Gráfico de Gannt"
+---
+
+```{r, child="../librerias.qmd"}
+#| include: false
+```
+
+Gráfico de Gannt de un proceso de selección.
+
+Se tiene la fecha de inicio y de finalización de cada tarea. Para el status de cada tarea se compara la fecha actual con la fecha de finalización de la tarea.
+
+[**Datos**]{.underline}
+
+```{r}
+tasks <- 
+  data.frame(
+    task = factor(c("Revisión de CV",
+                    "Entrevista inicial",
+                    "Prueba técnica",
+                    "Llamar referencias",
+                    "Entrevista final",
+                    "Oferta"),
+                  levels = c("Revisión de CV",
+                             "Entrevista inicial",
+                             "Prueba técnica",
+                             "Llamar referencias",
+                             "Entrevista final",
+                             "Oferta")),
+    start = as.Date(c("2024-01-01",
+                      "2024-01-10",
+                      "2024-01-15",
+                      "2024-01-15",
+                      "2024-01-20",
+                      "2024-02-01")),
+    end = as.Date(c("2024-01-07",
+                    "2024-01-15",
+                    "2024-01-25",
+                    "2024-01-16",
+                    "2024-02-05",
+                    "2024-02-15"))
+)
+
+tasks <- tasks %>%
+  mutate(
+    # Sustituir la fecha por Sys.Date()
+    fecha_actual = "2024-01-17",
+    status = case_when(
+      start > "2024-01-17" ~ "planned",
+      start < "2024-01-17" & end > "2024-01-17" ~ "on track",
+      start < "2024-01-17" & end < "2024-01-17" ~ "done",
+      TRUE ~ "delayed")
+  ) |> arrange(start)
+
+tasks
+```
+
+[**Código.**]{.underline}
+
+```{r}
+tasks |> ggplot(aes(x = start, xend = end, y = task, yend = task, color = status)) + 
+  geom_segment(size = 6) +
+  scale_color_manual(values = c("on track" = "lightgreen", 
+                                "delayed" = "yellow3", 
+                                "planned" = "lightblue1", 
+                                "done" = "grey")) +
+  labs(title = "Proceso de selección de personal",
+       x = "Fecha inicio de la tarea",
+       y = "Fase del proceso",
+       color = "Status") +
+  theme_minimal() + geom_vline(xintercept = as.numeric(as.Date("2024-01-17")), linetype="dotted", 
+                color = "black", size=0.5) + 
+  geom_text(x=as.numeric(as.Date("2024-01-17")), y=1.5, label=Sys.Date(),
+            angle=90, color = "darkgrey", size=3)
+```

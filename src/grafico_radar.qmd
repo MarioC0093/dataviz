@@ -1,0 +1,90 @@
+---
+title: "Gráfico de Radar o Araña"
+---
+
+```{r, child="../librerias.qmd"}
+#| include: false
+```
+
+
+[**Librerías específicas.**]{.underline}
+
+```{r}
+library(fmsb)
+```
+
+[**Datos.**]{.underline}
+
+```{r}
+df <- as.data.frame(matrix(USAccDeaths, ncol = 12, byrow = TRUE))
+colnames(df) <- month.abb
+rownames(df) <- seq(start(USAccDeaths)[1], end(USAccDeaths)[1])
+```
+
+```{r}
+# Es recomendable incluir una primera fila con el máximo a mostrar en el gráfico y una segunda línea con el mínimo a mostrar en el gráfico
+df <- rbind(rep(plyr::round_any(max(df), 100, f = ceiling), ncol(df)),
+              rep(plyr::round_any(min(df), 1000, f = floor), ncol(df)),
+            df)
+```
+
+[**Código.**]{.underline}
+
+```{r}
+# La función radarchart no tiene un argumento para cambiar el color del fondo del panel
+par(bg = "#f2feff")
+
+# El gráfico no abarca todo el panel. Pequeño truco para hacer que el gráfico parezca más grande
+# (Al final no lo incliyo porque relleno ese espacio con el título del gráfico)
+par(mar = c(2, 2, 2, 2))
+
+# Defino paleta de colores
+paleta_colores <- paletteer_d("ggthemes::wsj_colors6")
+```
+
+
+```{r}
+df |> as.data.frame() |>
+  radarchart(axistype = 2,  # Tipo de ejes
+             maxmin = TRUE,  # Incluir los valores máximo y mínimo del dataser
+             title = "Serie temporal de muertes accidentales en EE.UU.",
+             
+             # Tamaño de las labels de los vértices del polígono
+             vlcex = 1,
+             
+             # Tamaño de las valores de los vértices del polígono
+             palcex=0.6,
+             # Colores para las líneas de las series
+             pcol = paleta_colores,
+             
+             # Colores con transparencia para las áreas de las series
+             pfcol = alpha(paleta_colores, 0.05), 
+             
+             # Parámetros de la cuadrícula
+             cglcol = "skyblue",  # Color de la cuadrícula
+             cglty = 1,  # Tipo de línea de la cuadrícula
+             axislabcol = "blue",  # Color de las etiquetas de los ejes
+             #caxislabels = seq(0, 20, 5),  # Etiquetas de los ejes
+             cglwd = 0.8) # Ancho de la línea de la cuadrícula
+
+# Añadir título y subtítulo
+title(#main = "",
+      sub = "Se muestran los años de 1973 a 1978",
+      line = 1)  # Ajusta la posición del título y subtítulo
+
+
+# Añadir la leyenda al gráfico
+legend("right",
+       legend = rownames(df)[-c(1,2)],  # Texto de la leyenda
+       bty = "n",  # Sin caja alrededor de la leyenda
+       pch = 20,  # Tipo de símbolo en la leyenda
+       col = alpha(paleta_colores, 0.7),  # Colores de la leyenda
+       text.col = "grey25",  # Color del texto de la leyenda
+       pt.cex = 1,  # Tamaño de los puntos en la leyenda
+       cex = 0.8,  # Tamaño del texto de la leyenda
+       #x.intersp = 0.1,  # Espaciado horizontal entre símbolos y texto
+       #y.intersp = 0.1,  # Espaciado vertical entre líneas de la leyenda
+       title = "Años",  # Título de la leyenda
+       title.cex = 0.9)  # Tamaño del texto del título de la leyenda
+```
+

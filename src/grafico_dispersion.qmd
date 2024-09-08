@@ -1,0 +1,69 @@
+---
+title: "Gráfico de dispersión"
+---
+
+```{r, child="../librerias.qmd"}
+#| include: false
+```
+
+## (1)
+
+[**Librerías específicas.**]{.underline}
+
+```{r}
+library(palmerpenguins)
+```
+
+[**Código.**]{.underline}
+
+```{r}
+#| fig-align: center
+penguins |> ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) + 
+  geom_point(size = 2, alpha = 0.6) + 
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "black") +  # Línea de regresión
+  geom_smooth(aes(group=species, color=species), method = "lm", se = FALSE, linetype = 6) +  # Línea de regresión por grupos
+  scale_color_manual(values = c("Adelie" = "#FF5733", "Chinstrap" = "#33FF57", "Gentoo" = "#3357FF")) +  # Colores personalizados
+  labs(
+    title = "Relación entre la longitud y la Profundidad del Pico de los Pingüinos",
+    subtitle = "Diferentes especies de pingüinos en el archipiélago Palmer",
+    x = "Longitud del Pico (mm)",
+    y = "Profundidad del Pico (mm)",
+    color = "Especie"
+  ) +
+  theme_minimal(base_size = 8) +  # Tema minimalista con tamaño de fuente base
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 12),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    axis.title = element_text(face = "italic"),  # ejes en cursiva
+    legend.position = "top",
+    legend.background = element_rect(fill = "lightblue1", color = "blue", size = 0.5),  # fondo y borde de la leyenda
+    panel.grid.major = element_line(color = "gray80")  # líneas de cuadrícula
+  )
+```
+
+## (2)
+
+```{r}
+mtcars |> ggplot(aes(x = wt, y = mpg, color = factor(cyl), shape = factor(gear))) +
+  geom_point(size = 4) +
+  scale_color_manual(values = c("red", "blue", "green"),
+                     name = "Cilindrada (cyl)",
+                     labels = c("4 cilindros", "6 cilindros", "8 cilindros")) + 
+  scale_shape_manual(values = c(16, 17, 18),
+                     name = "Engranaje (gear)",
+                     labels = c("3 marchas", "4 marchas", "5 marchas")) + 
+  labs(title = "Relación entre Peso y Consumo de Combustible",
+       subtitle = "Datos del conjunto mtcars",
+       x = "Peso (1000 lbs)",
+       y = "Millas por Galón (mpg)",
+       caption = "Fuente: Motor Trend Car Road Tests") +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        legend.title = element_text(face = "bold", size = 8),
+        legend.text = element_text(size = 6),
+        legend.key = element_rect(fill = "white", color = "black"),  # Fondo de la leyenda blanco con borde negro
+        legend.background = element_rect(fill = "lightgrey", color = "black"),  # Fondo de la leyenda gris claro con borde negro
+        legend.box.background = element_rect(color = "black"))  # Borde negro alrededor de la caja de la leyenda
+
+```
+

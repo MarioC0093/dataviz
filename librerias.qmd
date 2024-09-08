@@ -1,0 +1,13 @@
+
+```{r}
+#| code-fold: false
+library(datasets)
+library(readxl)
+library(tidyverse)
+library(paletteer) # Esta librería permite ver los colores en la consola
+library(ggplot2)
+library(glue)
+library(scales) # función alpha que ajusta la transparencia
+library(ggtext)
+# library(help = "datasets")
+```
