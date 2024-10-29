@@ -6,15 +6,6 @@ date-format: "DD MMMM YYYY"
 lang: es
 ---
 
-```{r}
-#| echo: false
-setwd("C:/Users/MarioC/Documents/GitHub/dataviz")
-```
-
-<h2> Repositorio Git: </h2>
-
-<https://github.com/MarioC0093/dataviz/blob/main/README.md>
-
 <h2> Librerías comunes: </h2>
 
 ```{r, eval = FALSE}

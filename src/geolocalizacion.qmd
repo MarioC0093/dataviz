@@ -1,0 +1,149 @@
+---
+title: "Geovisualización"
+---
+
+```{r, child="../librerias.qmd"}
+#| include: false
+```
+
+
+[**Librerías específicas.**]{.underline}
+
+```{r}
+library(sf)
+```
+
+## Polígonos
+
+[**Datos**]{.underline}
+
+El Gobierno de España pone a disposición pública [bases de datos de las divisiones administrativas de España](https://datos.gob.es/en/catalogo/e00125901-spaignllm) que podemos descargar en formato SHP.
+
+```{=html}
+<iframe width=100% height="500" src="https://centrodedescargas.cnig.es/CentroDescargas/busquedaSerie.do?codSerie=LILIM#/" title="Webpage example"></iframe>
+```
+
+
+Una vez que tenemos claro qué tipo de información queremos, realizamos la búsqueda por listado y la añadimos en la cesta de descargas y a continuación iniciamos la descarga.
+
+![](../attachments/datagob_01.JPG)
+
+```{r}
+#| collapse: true
+r_provinciales <- st_read("../data/lineas_limite/SHP_ETRS89/recintos_provinciales_inspire_peninbal_etrs89/recintos_provinciales_inspire_peninbal_etrs89.shp")
+```
+
+
+```{r}
+ggplot(r_provinciales) +
+  geom_sf()
+```
+
+
+## Relleno de polígonos
+
+[**Datos**]{.underline}
+
+```{r}
+# Creamos datos ficticios de conversión media por  recinto y población
+r_provinciales <- r_provinciales |> mutate(conversion = rnorm(dim(r_provinciales)[1], mean=0.15, sd=0.09),
+                                           conversion = conversion - min(conversion),
+                                           poblacion = exp(conversion+1)*100000)
+```
+
+
+```{r}
+# Creamos datos ficticios de conversión media por  recinto y población
+r_provinciales <- r_provinciales |> mutate(conversion = rbeta(dim(r_provinciales)[1], 2, 100),
+                                           poblacion = round(conversion*10^8))
+```
+
+
+**Objetivo.** Resaltar la distribución de la población en las regiones/polígonos a través de una escala cromática. 
+
+```{r}
+r_provinciales |> 
+ggplot(aes(fill = poblacion)) +
+  geom_sf()+
+  scale_fill_viridis_c(trans = "identity", alpha = 0.4, labels = unit_format(unit = "personas", scale = 1)) + 
+  labs(fill="Población") + 
+  theme_minimal()
+```
+**Objetivo.** Resaltar la distribución [del logaritmo]{.underline} de la población en las regiones/polígonos a través de una escala cromática. 
+
+```{r}
+r_provinciales |> 
+ggplot(aes(fill = poblacion)) +
+  geom_sf()+
+  scale_fill_viridis_c(trans = "log", alpha = 0.4, labels = number) +
+  labs(fill="Logaritmo de la población") + 
+  theme_minimal()
+```
+**Objetivo.** Resaltar la distribución [inversa]{.underline} de la población en las regiones/polígonos a través de una escala cromática. 
+
+```{r}
+r_provinciales |> 
+ggplot(aes(fill = poblacion)) +
+  geom_sf()+
+  scale_fill_viridis_c(trans = "reverse", alpha = 0.4) + 
+  theme_minimal()
+```
+
+
+## Figuras sobre el centroide
+
+**Objetivo.** Destacar dos la distribución [inversa]{.underline} de la población en las regiones/polígonos a través de una escala cromática. 
+```{r}
+r_provinciales |> 
+ggplot() +
+  geom_sf()+
+  geom_point(aes(color = conversion, size = poblacion, geometry = geometry),
+            stat = "sf_coordinates") + 
+  scale_color_gradientn(colours=rev(magma(52)),
+                       name="Conversión",
+                       na.value = "grey100") + 
+  scale_size_continuous(labels = number, guide = guide_legend(reverse = TRUE)) +
+  labs(size="Población") + 
+  theme_minimal()
+```
+## Porcentaje de relleno del polígono
+
+```{r}
+bbox <- st_bbox(r_provinciales |> filter(NAMEUNIT=="Madrid"))
+bbox <- st_bbox(r_provinciales)
+
+cupo <- 0.5
+
+thisBBox <- bbox
+thisBBox['ymax'] <- thisBBox$ymin + (thisBBox$ymax - thisBBox$ymin) * cupo
+
+thisSubarea <- st_crop(r_provinciales$geometry, y=thisBBox)
+thisArea <- st_area(thisSubarea)
+```
+
+```{r}
+plot(r_provinciales$geometry)
+plot(thisSubarea, max.plot=1, add=T, col='orange') #, border=NA
+```
+
+
+```{r}
+r_provinciales_01 <- r_provinciales |> filter(NAMEUNIT=="Madrid")
+bbox <- st_bbox(r_provinciales_01)
+
+cupo <- 0.2
+
+thisBBox <- bbox
+thisBBox['ymax'] <- thisBBox$ymin + (thisBBox$ymax - thisBBox$ymin) * cupo
+
+thisSubarea <- st_crop(r_provinciales_01$geometry, y=thisBBox)
+thisArea <- thisSubarea
+```
+
+```{r}
+plot(r_provinciales_01$geometry)
+plot(thisSubarea, max.plot=1, add=T, col='lightgreen') #, border=NA
+```
+
+
+

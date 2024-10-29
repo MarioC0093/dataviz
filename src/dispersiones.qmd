@@ -1,0 +1,77 @@
+---
+title: "Sin nombre todavía"
+---
+
+```{r, child="../librerias.qmd"}
+#| include: false
+```
+
+
+[**Datos**]{.underline}
+
+*El conjunto de datos Used Car Price Prediction Dataset es una colección completa de información extraída de la página web del mercado automovilístico https://www.cars.com. Este dataset comprende 4.009 puntos de datos, cada uno de los cuales representa una lista de vehículos única, e incluye nueve características distintas que brindan información valiosa sobre el mundo de los automóviles.*
+
+[https://www.kaggle.com/datasets/taeefnajib/used-car-price-prediction-dataset/data](https://www.kaggle.com/datasets/taeefnajib/used-car-price-prediction-dataset/data)
+
+```{r}
+used_cars <- read_csv("../data/used_cars.csv")
+```
+
+```{r}
+used_cars <- used_cars |> select(milage, price) |> mutate(milage =  as.numeric(gsub("[^0-9]", "", milage)),
+                                                          price = as.numeric(gsub("[$,]", "", price)))
+
+```
+
+
+[**Librerías específicas.**]{.underline}
+
+```{r}
+
+```
+
+[**Código.**]{.underline}
+
+```{r}
+used_cars |> 
+ggplot(aes(x=milage, y=price)) + 
+geom_point()
+```
+
+
+```{r}
+used_cars |> 
+ggplot(aes(x=milage, y=log(price))) + 
+geom_point()
+```
+
+```{r}
+used_cars |> 
+ggplot(aes(x=as.factor(floor(milage / 10000) * 10000), y=price, fill=cut(milage, breaks = c(0, 29999, 69999, 199999, 999999999), labels = c("Bajo", "Medio", "Alto", "Muy alto")))) + 
+  geom_boxplot() + 
+  ylim(0, 100000) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("lightblue", "lightgreen", "lightpink", "orange")) + 
+  labs(x="Kilometraje", y="Precio", title= "Relación entre Kilometraje y Precio", fill="Intervalo kilometraje")
+```
+
+```{r}
+used_cars |> 
+ggplot(aes(x=as.factor(floor(milage / 10000) * 10000), y=price, fill=ifelse(milage > median(milage), "Above", "Below"))) + 
+  geom_boxplot() + 
+  ylim(0, 100000) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Below" = "lightblue", "Above" = "lightcoral")) +
+  labs(x="Kilometraje", y="Precio", title= "Precios por Encima o Debajo de la Mediana", fill="")
+```
+
+
+```{r}
+used_cars |> 
+ggplot(aes(x=as.factor(floor(price / 10000) * 10000), y=milage, fill=ifelse(price > median(price), "Above", "Below"))) + 
+  geom_boxplot() + 
+  ylim(0, 100000) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Below" = "lightblue", "Above" = "lightcoral")) +
+  labs(x="Kilometraje", y="Precio", title= "Precios por Encima o Debajo de la Mediana", fill="")
+```

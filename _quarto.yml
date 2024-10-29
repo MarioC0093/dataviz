@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  page-navigation: true
+  page-navigation: false
   chapters:
     - index.qmd
     - src/boxplot.qmd
@@ -14,7 +14,30 @@ book:
     - src/grafico_gannt.qmd
     - src/grafico_radar.qmd
     - src/mapas.qmd
+    - src/geolocalizacion.qmd
+    - src/dispersiones.qmd
     - src/otros.qmd
+  navbar:
+    left:
+      - href: 'index.html'
+        text: Notebook
+      - href: 'librerias.qmd'
+        text: Librerías
+  sidebar:
+    tools:
+      - href: 'https://github.com/MarioC0093/dataviz/'
+        icon: github
+        text: Repositorio
+      - href: 'https://www.linkedin.com/in/mario-camacho-b98462ab/'
+        icon: linkedin
+        text: "LinkedIn"
+      - href: 'https://buymeacoffee.com/marioc0093'
+        icon: rocket-takeoff
+        text: "Buy me a coffee"
+  page-footer:
+    center: 
+      - text: "License"
+        href: LICENSE
 
 lang: es
 
@@ -31,10 +54,14 @@ keywords: ["portafolio", "[tu área de especialización]", "proyectos", "habilid
 
 format:
   html:
+    #grid:
+    #  sidebar-width: 300px
+    #  body-width: 1400px
+    #  margin-width: 300px
     grid:
-      sidebar-width: 300px
-      body-width: 1000px
-      margin-width: 100px
+      sidebar-width: 250px
+      body-width: 900px
+      margin-width: 200px
     code-link: true
     toc: true
     toc-title: ""
@@ -53,8 +80,8 @@ page-layout: full
 knitr:
   opts_chunk: 
     R.options:
-      width: 110
+      #width: 50
       out-width: 80%
 code-fold: true
 warning: false
-
+messmessage: false

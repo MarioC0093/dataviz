@@ -62,8 +62,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../src/otros.html" rel="next">
-<link href="../src/grafico_radar.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -73,11 +71,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 20,
   "language": {
     "search-no-results-text": "Sin resultados",
@@ -98,10 +96,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="icon" type="image/png" href="metadata/favicon.png">
 <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link active" href="../index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Notebook</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../librerias.qmd" rel="" target="">
+ <span class="menu-text">Librerías</span></a>
+  </li>  
+</ul>
+<div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -112,13 +130,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Buscar"></div>
         </div>
         </div>
+        <div class="sidebar-tools-collapse tools-wide">
+    <a href="https://github.com/MarioC0093/dataviz/" rel="" title="Repositorio" class="quarto-navigation-tool px-1" aria-label="Repositorio"><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/in/mario-camacho-b98462ab/" rel="" title="LinkedIn" class="quarto-navigation-tool px-1" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+    <a href="https://buymeacoffee.com/marioc0093" rel="" title="Buy me a coffee" class="quarto-navigation-tool px-1" aria-label="Buy me a coffee"><i class="bi bi-rocket-takeoff"></i></a>
+</div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
 <li class="sidebar-item">
@@ -164,6 +187,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/mapas.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Mapa iteractivo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/geolocalizacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Geovisualización</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/dispersiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sin nombre todavía</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -244,8 +277,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/map-methods.html">setView</a></span><span class="op">(</span>lng <span class="op">=</span> <span class="op">-</span><span class="fl">3.7038</span>, lat <span class="op">=</span> <span class="fl">40.4168</span>, zoom <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>  <span class="co"># Centrar el mapa en España</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-159153c73e30d210ebd6" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-159153c73e30d210ebd6">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[40.4168,41.3851,39.4699,37.3891,41.6488],[-3.7038,2.1734,-0.3763,-5.9845,-0.8891],[0.7071067811865476,0.6708203932499369,0.4472135954999579,0.4242640687119285,0.3872983346207417],null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.5,"fill":true,"fillColor":"red","fillOpacity":0.7},null,null,["<strong>Provincia: <\/strong>Madrid<br><strong>Casos: <\/strong>5e+05","<strong>Provincia: <\/strong>Barcelona<br><strong>Casos: <\/strong>450000","<strong>Provincia: <\/strong>Valencia<br><strong>Casos: <\/strong>2e+05","<strong>Provincia: <\/strong>Sevilla<br><strong>Casos: <\/strong>180000","<strong>Provincia: <\/strong>Zaragoza<br><strong>Casos: <\/strong>150000"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["red","yellow"],"labels":["Menos","Más"],"na_color":null,"na_label":"NA","opacity":0.7,"position":"bottomright","type":"unknown","title":"Número de Casos","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[37.3891,41.6488],"lng":[-5.9845,2.1734]},"setView":[[40.4168,-3.7038],6,[]]},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-ca135a7612a28c2f7854" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ca135a7612a28c2f7854">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[40.4168,41.3851,39.4699,37.3891,41.6488],[-3.7038,2.1734,-0.3763,-5.9845,-0.8891],[0.7071067811865476,0.6708203932499369,0.4472135954999579,0.4242640687119285,0.3872983346207417],null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.5,"fill":true,"fillColor":"red","fillOpacity":0.7},null,null,["<strong>Provincia: <\/strong>Madrid<br><strong>Casos: <\/strong>5e+05","<strong>Provincia: <\/strong>Barcelona<br><strong>Casos: <\/strong>450000","<strong>Provincia: <\/strong>Valencia<br><strong>Casos: <\/strong>2e+05","<strong>Provincia: <\/strong>Sevilla<br><strong>Casos: <\/strong>180000","<strong>Provincia: <\/strong>Zaragoza<br><strong>Casos: <\/strong>150000"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["red","yellow"],"labels":["Menos","Más"],"na_color":null,"na_label":"NA","opacity":0.7,"position":"bottomright","type":"unknown","title":"Número de Casos","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[37.3891,41.6488],"lng":[-5.9845,2.1734]},"setView":[[40.4168,-3.7038],6,[]]},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 
@@ -483,19 +516,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation column-page-right"><div class="nav-page nav-page-previous">
-      <a href="../src/grafico_radar.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Gráfico de Radar o Araña</span></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../src/otros.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-title">Otros</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
+</script>
 </div> <!-- /content -->
-
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item">
+    <a class="nav-link" href="../LICENSE">License</a>
+  </li>  
+</ul>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 </body></html>
